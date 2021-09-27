@@ -39,7 +39,7 @@ func InitCreateTable(db *gorm.DB){
 	db.AutoMigrate(&models.Regency{})
 	db.AutoMigrate(&models.Province{})
 	db.AutoMigrate(&models.District{})
-	db.AutoMigrate(&models.User{})
+	// db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.TypeTransaction{})
 	db.AutoMigrate(&models.Role{})
 	db.AutoMigrate(&models.TypeTransaction{})

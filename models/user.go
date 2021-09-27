@@ -1,22 +1,18 @@
 package models
 import(
 	"gorm.io/gorm"
-	"AntarJemput-Be-C/models/enum"
 )
 
-type User struct {
+type Agen struct {
 	gorm.Model
 	Id uint `gorm:"column:id; primaryKey;autoIncrement" json:"id"`
-	Name string `gorm:"column:title;type:varchar(255);not null" json:"title" validate:"required"`
-	Email string `gorm:"column:email;type:varchar(255);not null;unique" json:"email" validate:"required"`
+	Name string `gorm:"column:name_agen;type:varchar(255);not null" json:"name_agen"`
+	Username string `gorm:"column:username;type:varchar(255);not null;unique" json:"email"`
 	Password string `gorm:"column:password;type:varchar(255);unique" json:"password"`
-	IsActive enum.StatusUser `gorm:"column:is_active" json:"is_active" validate:"required"`
-	RoleId uint `gorm:"column:role_id" json:"role_id" validate:"required"`
-	AlamatLengkap string `gorm:"alamat_lengkap;type:varchar(255);unique" json:"alamat_lengkap"`
-	ProvinceId uint `gorm:"province_id" json:"province_id"`
-	DistrictId uint `gorm:"district_id" json:"district_id"`
-	RegencyId uint `gorm:"regency_id" json:"regency"`
-	NoWa string `gorm:"no_wa" json:"no_wa"`
-	
-
+	Address string `gorm:"column:address;type:varchar(255)" json:"alamat_agen"`
+	Province string `gorm:"column:province;type:varchar(30) json:"province"`
+	Regency string `gorm:"column:regency;type:varchar(30) json:"regency"`
+	City string `gorm:"column:city;type:varchar(30)" json:"city"`
+	NoWa string `gorm:"no_"wa" json:"no_wa"`	
+	LoginAs uint `gorm:"login_as" json:"login_as"`
 }

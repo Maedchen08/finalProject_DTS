@@ -3,17 +3,19 @@ package cli
 import (
 	"AntarJemput-Be-C/app"
 	"AntarJemput-Be-C/config"
-	// "AntarJemput-Be-C/config/database"
-	// "AntarJemput-Be-C/repository"
-	// "AntarJemput-Be-C/services"
-	// "homework-rakamin-go-sql/handlers"
-	route "AntarJemput-Be-C/routes"
-	"fmt"
-	"github.com/gofiber/fiber/v2"
-	"os/signal"
-	"os"
-	log "github.com/sirupsen/logrus"
+	"AntarJemput-Be-C/handlers"
+	"AntarJemput-Be-C/repositories"
+	"AntarJemput-Be-C/routes"
 
+	"AntarJemput-Be-C/config/database"
+	route "AntarJemput-Be-C/routes"
+	"AntarJemput-Be-C/services"
+	"fmt"
+	"os"
+	"os/signal"
+
+	"github.com/gofiber/fiber/v2"
+	log "github.com/sirupsen/logrus"
 )
 
 type Cli struct {
@@ -30,21 +32,20 @@ func (cli *Cli) Run(application *app.Application){
 	fiberConfig := config.FiberConfig()
 	app := fiber.New(fiberConfig)
 
-	//set up connection
-	// connDB:= database.InitDb()
+	// set up connection
+	connDB:= database.InitDb()
 
-	// //movies services
-	// moviesRepository := repository.NewMoviesRepository(connDB)
-	// moviesService := services.NewMoviesService(moviesRepository)
-	// moviesHandler := handlers.NewMoviesHandler(moviesService)
+	//role services
+	roleRepository := repositories.NewRoleRepository(connDB)
+	roleService := services.NewRoleService(roleRepository)
+	roleHandler := handlers.NewRoleHandler(roleService)
 
-	// //REGISTER HANDLER TO Routes
-	// routes := route.NewRoutes(moviesHandler)
-	// routes.InitializeRoutes(app)
+	//REGISTER HANDLER TO Routes
+	roleRoute := routes.RoleRoutes(roleHandler)
+	roleRoute.InitialRoleRoutes(app)
 
-	//not found routes
+	//not found Routes
 	route.NotFoundRoute(app)
-
 	StartServerWithGracefulShutdown(app, application.Config.AppPort)
 
 }
