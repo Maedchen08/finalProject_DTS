@@ -26,7 +26,7 @@ func (rh *RoleHandler) Save(c *fiber.Ctx) error {
 	role := &models.Role{}
 	if err := c.BodyParser(&role); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"status":  true,
+			"status":  400,
 			"message": err.Error(),
 		})
 	}
@@ -35,7 +35,7 @@ func (rh *RoleHandler) Save(c *fiber.Ctx) error {
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"status":  404,
+			"status":  500,
 			"message": err.Error(),
 		})
 	}
@@ -56,7 +56,7 @@ func (rh *RoleHandler) GetAll(c *fiber.Ctx) error {
 }
 
 func (rh *RoleHandler) GetById(c *fiber.Ctx) error {
-	id,_ := strconv.Atoi(c.Params("id"))
+	id, _ := strconv.Atoi(c.Params("id"))
 	response, err := rh.roleService.GetById(id)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{

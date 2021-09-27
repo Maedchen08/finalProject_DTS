@@ -41,6 +41,7 @@ func InitCreateTable(db *gorm.DB){
 	// db.AutoMigrate(&models.District{})
 	// db.AutoMigrate(&models.User{})
 	// db.AutoMigrate(&models.TypeTransaction{})
+	db.AutoMigrate(&models.Agents{})
 	db.AutoMigrate(&models.Role{})
 
 

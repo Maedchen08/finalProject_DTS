@@ -38,9 +38,16 @@ func (cli *Cli) Run(application *app.Application){
 	roleService := services.NewRoleService(roleRepository)
 	roleHandler := handlers.NewRoleHandler(roleService)
 
+	//agent services
+	agentRepository := repositories.NewAgentRepository(connDB)
+	agentService := services.NewAgentService(agentRepository)
+	agentHandler := handlers.NewAgentHandler(agentService)
+
 	//REGISTER HANDLER TO Routes
 	roleRoute := route.NewRoleRoutes(roleHandler)
+	agentRoute := route.NewAgentRoutes(agentHandler)
 	roleRoute.InitialRoleRoutes(app)
+	agentRoute.InitialAgentRoutes(app)
 
 	//not found Routes
 	route.NotFoundRoute(app)
