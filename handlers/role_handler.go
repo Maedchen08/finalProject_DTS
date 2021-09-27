@@ -35,13 +35,13 @@ func (rh *RoleHandler) Save(c *fiber.Ctx) error {
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"status":  true,
+			"status":  404,
 			"message": err.Error(),
 		})
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"status":  false,
+		"status":  200,
 		"message": "Success",
 		"data":    response,
 	})

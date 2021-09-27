@@ -10,7 +10,7 @@ type RoleRoutes struct {
 	roleHandler handlers.RoleHandlerInterface
 }
 
-func RolesRoutes(roleHandler handlers.RoleHandlerInterface) *RoleRoutes {
+func NewRoleRoutes(roleHandler handlers.RoleHandlerInterface) *RoleRoutes {
 	return &RoleRoutes{roleHandler: roleHandler}
 }
 

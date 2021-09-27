@@ -5,8 +5,6 @@ import (
 	"AntarJemput-Be-C/config"
 	"AntarJemput-Be-C/handlers"
 	"AntarJemput-Be-C/repositories"
-	"AntarJemput-Be-C/routes"
-
 	"AntarJemput-Be-C/config/database"
 	route "AntarJemput-Be-C/routes"
 	"AntarJemput-Be-C/services"
@@ -41,7 +39,7 @@ func (cli *Cli) Run(application *app.Application){
 	roleHandler := handlers.NewRoleHandler(roleService)
 
 	//REGISTER HANDLER TO Routes
-	roleRoute := routes.RoleRoutes(roleHandler)
+	roleRoute := route.NewRoleRoutes(roleHandler)
 	roleRoute.InitialRoleRoutes(app)
 
 	//not found Routes

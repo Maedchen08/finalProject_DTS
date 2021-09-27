@@ -17,33 +17,36 @@ func NewRoleRepository(db *gorm.DB) *RoleRepository {
 }
 
 //Role: represent the customers repository contract
-type RoleRepoInterface interface{
-	Save(models.Role) (models.Role, error)
-	GetRole() ([]models.Role,error)
-	GetRoleId(id int) (models.Role,error)
+type RoleRepoInterface interface {
+	Save(role *models.Role) (int, error)
+	GetRole() ([]models.Role, error)
+	GetRoleId(id int) (models.Role, error)
 }
 
-func (roleRepository *RoleRepository) Save(role models.Role) (models.Role, error) {
-	trx := roleRepository.DB.Create(&role)
-	return role, trx.Error
+func (rp *RoleRepository) Save(role *models.Role) (int, error) {
+	err := rp.DB.Create(role).Error
+	if err != nil {
+		return role.Id, err
+	}
+	return role.Id, nil
 }
 
-func (roleRepository *RoleRepository) GetRole() ([]models.Role, error) {
+func (rp *RoleRepository) GetRole() ([]models.Role, error) {
 	var role []models.Role
-	findRole := roleRepository.DB.Find(&role)
+	findRole := rp.DB.Find(&role)
 	return role, findRole.Error
 }
 
 func (roleRepository *RoleRepository) GetRoleId(id int) (models.Role, error) {
 	var role models.Role
-	query := `SELECT id,name FROM role WHERE id =?`
-	err := roleRepository.DB.Raw(query,id).Scan(&role).Error
-	
+	query := `SELECT id,role_name FROM role WHERE id =?`
+	err := roleRepository.DB.Raw(query, id).Scan(&role).Error
+
 	if err != nil {
+		return role, err
+	}
+	if role.Id == 0 {
 		return role, gorm.ErrRecordNotFound
 	}
 	return role, nil
 }
-
-
-
