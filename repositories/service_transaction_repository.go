@@ -30,4 +30,4 @@ func (str * ServiceTransactionRepo) Save(serviceTransaction *models.ServiceTrans
 	return serviceTransaction.Id, nil
 }
 
-// func (str * ServiceTransactionRepo) GetAll([]models.ServiceTransaction, error)
+// func (str * ServiceTransactionRepo) GetAll([]models.ServiceTransaction, error) 
