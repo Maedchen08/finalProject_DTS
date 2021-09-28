@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Agen struct {
+type User struct {
 	gorm.Model
 	Id       uint   `gorm:"column:id; primaryKey;autoIncrement" json:"id"`
 	Name     string `gorm:"column:name_agen;type:varchar(255);not null" json:"name_agen"`

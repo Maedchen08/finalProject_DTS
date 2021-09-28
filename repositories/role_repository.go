@@ -16,7 +16,7 @@ func NewRoleRepository(db *gorm.DB) *RoleRepository {
 	}
 }
 
-//Role: represent the customers repository contract
+//Role: represent the role repository contract
 type RoleRepoInterface interface {
 	Save(role *models.Role) (int, error)
 	GetRole() ([]models.Role, error)

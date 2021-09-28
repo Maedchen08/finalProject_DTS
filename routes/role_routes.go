@@ -15,7 +15,7 @@ func NewRoleRoutes(roleHandler handlers.RoleHandlerInterface) *RoleRoutes {
 }
 
 func (roleRoutes *RoleRoutes) InitialRoleRoutes(app *fiber.App) {
-	app.Post("/role", roleRoutes.roleHandler.Save)
-	app.Get("/role", roleRoutes.roleHandler.GetAll)
-	app.Get("/role/:id", roleRoutes.roleHandler.GetById)
+	app.Post(POST_ROLE, roleRoutes.roleHandler.Save)
+	app.Get(GETALL_ROLE, roleRoutes.roleHandler.GetAll)
+	app.Get(GETBYID_ROLE, roleRoutes.roleHandler.GetById)
 }

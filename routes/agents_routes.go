@@ -14,7 +14,7 @@ func NewAgentRoutes(agentHandler handlers.AgentHandlerInterface) *AgentsRoutes {
 }
 
 func (ar *AgentsRoutes) InitialAgentRoutes(app *fiber.App){
-	app.Post("/agents",ar.agentHandler.Save)
-	app.Get("/agents",ar.agentHandler.GetAll)
-	app.Get("/agents/:id",ar.agentHandler.GetById)
+	app.Post(POST_AGENTS,ar.agentHandler.Save)
+	app.Get(GETALL_AGENTS,ar.agentHandler.GetAll)
+	app.Get(GETBYID_AGENTS,ar.agentHandler.GetById)
 }
