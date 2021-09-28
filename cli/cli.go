@@ -3,17 +3,17 @@ package cli
 import (
 	"AntarJemput-Be-C/app"
 	"AntarJemput-Be-C/config"
-	// "AntarJemput-Be-C/config/database"
-	// "AntarJemput-Be-C/repository"
-	// "AntarJemput-Be-C/services"
-	// "homework-rakamin-go-sql/handlers"
+	"AntarJemput-Be-C/config/database"
+	"AntarJemput-Be-C/handlers"
+	"AntarJemput-Be-C/repositories"
 	route "AntarJemput-Be-C/routes"
+	"AntarJemput-Be-C/services"
 	"fmt"
-	"github.com/gofiber/fiber/v2"
-	"os/signal"
 	"os"
-	log "github.com/sirupsen/logrus"
+	"os/signal"
 
+	"github.com/gofiber/fiber/v2"
+	log "github.com/sirupsen/logrus"
 )
 
 type Cli struct {
@@ -26,35 +26,48 @@ func NewCli(args []string) *Cli {
 	}
 }
 
-func (cli *Cli) Run(application *app.Application){
+func (cli *Cli) Run(application *app.Application) {
 	fiberConfig := config.FiberConfig()
 	app := fiber.New(fiberConfig)
 
-	//set up connection
-	// connDB:= database.InitDb()
+	// set up connection
+	connDB := database.InitDb()
 
-	// //movies services
-	// moviesRepository := repository.NewMoviesRepository(connDB)
-	// moviesService := services.NewMoviesService(moviesRepository)
-	// moviesHandler := handlers.NewMoviesHandler(moviesService)
+	//role services
+	roleRepository := repositories.NewRoleRepository(connDB)
+	roleService := services.NewRoleService(roleRepository)
+	roleHandler := handlers.NewRoleHandler(roleService)
 
-	// //REGISTER HANDLER TO Routes
-	// routes := route.NewRoutes(moviesHandler)
-	// routes.InitializeRoutes(app)
+	//agent services
+	agentRepository := repositories.NewAgentRepository(connDB)
+	agentService := services.NewAgentService(agentRepository)
+	agentHandler := handlers.NewAgentHandler(agentService)
 
-	//not found routes
+	//customerService
+	customerRepository := repositories.NewCustomerRepository(connDB)
+	customerService := services.NewCustomerService(customerRepository)
+	customerHandler := handlers.NewCustomerHandler(customerService)
+
+	//REGISTER HANDLER TO Routes
+	roleRoute := route.NewRoleRoutes(roleHandler)
+	agentRoute := route.NewAgentRoutes(agentHandler)
+	customerRoute := route.NewCustomerRoutes(customerHandler)
+	roleRoute.InitialRoleRoutes(app)
+	agentRoute.InitialAgentRoutes(app)
+	customerRoute.InitialCustomerRoute(app)
+
+	//not found Routes
 	route.NotFoundRoute(app)
-
 	StartServerWithGracefulShutdown(app, application.Config.AppPort)
 
 }
 
-func StartServerWithGracefulShutdown(app *fiber.App,port string) {
-	appPort:= fmt.Sprintf(`:%s`,port)
+func StartServerWithGracefulShutdown(app *fiber.App, port string) {
+	appPort := fmt.Sprintf(`:%s`, port)
 	idleConnsClosed := make(chan struct{})
 
 	go func() {
-		sigint := make(chan os.Signal,1)
+		sigint := make(chan os.Signal, 1)
 		signal.Notify(sigint, os.Interrupt)
 		<-sigint
 

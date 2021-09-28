@@ -1,11 +1,12 @@
 package database
-import(
-	"log"
-	"time"
-	"AntarJemput-Be-C/models"
+
+import (
 	"AntarJemput-Be-C/config"
+	"AntarJemput-Be-C/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"log"
+	"time"
 )
 
 func InitDb() *gorm.DB {
@@ -14,7 +15,7 @@ func InitDb() *gorm.DB {
 	maxLifetimeConn := config.GetInt("DB_MAX_LIFETIME_CONNECTIONS")
 
 	dsn := config.GetString("DB_SERVER_URL")
-	db,err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic(err)
@@ -31,24 +32,17 @@ func InitDb() *gorm.DB {
 	InitCreateTable(db)
 	log.Println("database connect success")
 	return db
-	
+
 }
 
-func InitCreateTable(db *gorm.DB){
-	
-	db.AutoMigrate(&models.Regency{})
-	db.AutoMigrate(&models.Province{})
-	db.AutoMigrate(&models.District{})
-	db.AutoMigrate(&models.User{})
-	db.AutoMigrate(&models.TypeTransaction{})
+func InitCreateTable(db *gorm.DB) {
+	db.AutoMigrate(&models.Agents{})
 	db.AutoMigrate(&models.Role{})
-	db.AutoMigrate(&models.TypeTransaction{})
-
-
-	
-	
-
-
+	db.AutoMigrate(&models.Customer{})
+	db.AutoMigrate(&models.Users{})
+	db.AutoMigrate(&models.ServiceTransaction{})
+	db.AutoMigrate(&models.Login{})
+	db.AutoMigrate(&models.Transactions{})
+	db.AutoMigrate(&models.TypeServiceTransaction{})
 
 }
-
