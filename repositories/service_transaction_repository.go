@@ -18,7 +18,7 @@ func NewServiceTransRepo(db *gorm.DB) *ServiceTransactionRepo {
 
 type ServiceTransacInterface interface {
 	Save(serviceTransaction *models.ServiceTransaction) (int, error)
-	GetAll([]models.ServiceTransaction,error)
+	GetAll() ([]models.ServiceTransaction,error)
 	GetById(id int) (models.ServiceTransaction, error)
 }
 
@@ -30,4 +30,19 @@ func (str * ServiceTransactionRepo) Save(serviceTransaction *models.ServiceTrans
 	return serviceTransaction.Id, nil
 }
 
-// func (str * ServiceTransactionRepo) GetAll([]models.ServiceTransaction, error) 
+func (str *ServiceTransactionRepo) GetAll() ([]models.ServiceTransaction, error) {
+	var serviceTransaction []models.ServiceTransaction
+	findStr := str.DB.Find(&serviceTransaction)
+	return serviceTransaction, findStr.Error	
+}
+
+ func (str *ServiceTransactionRepo) GetById(id int) (models.ServiceTransaction, error) {
+	 var serviceTransaction models.ServiceTransaction
+	 query := `SELECT * FROM service_transaction WHERE id =?`
+	 err := str.DB.Raw(query, id).Scan(&serviceTransaction).Error
+
+	 if err != nil {
+		 return serviceTransaction, err
+	 }
+	 return serviceTransaction, nil
+ }

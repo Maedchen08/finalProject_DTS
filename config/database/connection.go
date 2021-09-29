@@ -43,5 +43,6 @@ func InitCreateTable(db *gorm.DB) {
 	db.AutoMigrate(&models.ServiceTransaction{})
 	db.AutoMigrate(&models.Transactions{})
 	db.AutoMigrate(&models.TypeServiceTransaction{})
+	
 
 }
