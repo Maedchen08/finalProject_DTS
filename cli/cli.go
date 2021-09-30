@@ -53,7 +53,12 @@ func (cli *Cli) Run(application *app.Application) {
 	serviceTransactionService := services.NewSTransactionService(serviceTransactionRepo)
 	serviceTransacHandler := handlers.NewSTHandler(serviceTransactionService)
 
-	//typeServiceTransaction 
+	//Transaction
+	transactionsRepo := repositories.NewTransactionRepository(connDB)
+	transactionService := services.NewTransactionService(transactionsRepo)
+	transactionHandler := handlers.NewTransactionHandler(transactionService)
+
+	//typeServiceTransaction
 	typeServiceRepo := repositories.NewTypeServiceRepo(connDB)
 	typeSService := services.NewSTService(typeServiceRepo)
 	typeSHandler := handlers.NewTSHandler(typeSService)
@@ -64,12 +69,14 @@ func (cli *Cli) Run(application *app.Application) {
 	customerRoute := route.NewCustomerRoutes(customerHandler)
 	sTRoute := route.NewSTRoutes(serviceTransacHandler)
 	tsRoute := route.NewTSRoutes(typeSHandler)
+	transRoute := route.NewTransRoutes(transactionHandler)
 
 	roleRoute.InitialRoleRoutes(app)
 	agentRoute.InitialAgentRoutes(app)
 	customerRoute.InitialCustomerRoute(app)
 	sTRoute.InitialSTRoute(app)
 	tsRoute.InitialTSRoute(app)
+	transRoute.InitialTransactionRoutes(app)
 
 	//not found Routes
 	route.NotFoundRoute(app)
