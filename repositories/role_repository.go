@@ -50,3 +50,5 @@ func (rp *RoleRepository) GetRoleId(id int) (models.Role, error) {
 	}
 	return role, nil
 }
+
+
