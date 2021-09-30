@@ -37,10 +37,10 @@ func (rp *RoleRepository) GetRole() ([]models.Role, error) {
 	return role, findRole.Error
 }
 
-func (roleRepository *RoleRepository) GetRoleId(id int) (models.Role, error) {
+func (rp *RoleRepository) GetRoleId(id int) (models.Role, error) {
 	var role models.Role
 	query := `SELECT id,role_name FROM role WHERE id =?`
-	err := roleRepository.DB.Raw(query, id).Scan(&role).Error
+	err := rp.DB.Raw(query, id).Scan(&role).Error
 
 	if err != nil {
 		return role, err
@@ -50,3 +50,5 @@ func (roleRepository *RoleRepository) GetRoleId(id int) (models.Role, error) {
 	}
 	return role, nil
 }
+
+

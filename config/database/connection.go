@@ -36,12 +36,14 @@ func InitDb() *gorm.DB {
 }
 
 func InitCreateTable(db *gorm.DB) {
-	db.AutoMigrate(&models.Agents{})
-	db.AutoMigrate(&models.Role{})
-	db.AutoMigrate(&models.Customer{})
-	db.AutoMigrate(&models.Users{})
-	db.AutoMigrate(&models.ServiceTransaction{})
-	db.AutoMigrate(&models.Transactions{})
-	db.AutoMigrate(&models.TypeServiceTransaction{})
+	db.AutoMigrate(
+		&models.Agents{},
+		&models.Role{}, 
+		&models.Customer{}, 
+		&models.Users{},
+		&models.ServiceTransaction{}, 
+		&models.Transactions{}, 
+		&models.TypeServiceTransaction{},
+		)
 
 }

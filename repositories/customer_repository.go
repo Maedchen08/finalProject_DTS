@@ -16,7 +16,7 @@ func NewCustomerRepository(db *gorm.DB) *CustomerRepository {
 	}
 }
 
-//represent the customer repository contract   
+//represent the customer repository contract
 type CustomerRepoInterface interface {
 	Save(customer *models.Customer) (int, error)
 	GetAll() ([]models.Customer, error)
@@ -39,9 +39,9 @@ func (cr *CustomerRepository) GetAll() ([]models.Customer, error) {
 
 func (cr *CustomerRepository) GetById(id int) (models.Customer, error) {
 	var customer models.Customer
-	query := `SELECT*FROM customers WHERE id =?`
-	err := cr.DB.Raw(query,id).Scan(&customer).Error
-	
+	query := `SELECT*FROM customer WHERE id =?`
+	err := cr.DB.Raw(query, id).Scan(&customer).Error
+
 	if err != nil {
 		return customer, err
 	}
