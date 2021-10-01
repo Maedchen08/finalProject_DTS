@@ -35,3 +35,8 @@ const GETBYID_TRANSACTION_CUSTOMER = "/transaksi/customer/:id"
 const GETBYID_TRANSACTION_AGENT = "/transaksi/agent/:id"
 const GETALL_TRANSACTION = "/transaksi"
 const DELETE_TRANSACTION = "/transaksi/:id"
+
+//auth
+const POST_REGISTER = "/register"
+const GETALL_USERS = "/users"
+const GETBYID_USERS = "/users/:id"

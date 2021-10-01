@@ -3,10 +3,11 @@ package database
 import (
 	"AntarJemput-Be-C/config"
 	"AntarJemput-Be-C/models"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 	"log"
 	"time"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func InitDb() *gorm.DB {
@@ -38,12 +39,12 @@ func InitDb() *gorm.DB {
 func InitCreateTable(db *gorm.DB) {
 	db.AutoMigrate(
 		&models.Agents{},
-		&models.Role{}, 
-		&models.Customer{}, 
+		&models.Role{},
+		&models.Customer{},
 		&models.Users{},
-		&models.ServiceTransaction{}, 
-		&models.Transactions{}, 
+		&models.ServiceTransaction{},
+		&models.Transactions{},
 		&models.TypeServiceTransaction{},
-		)
+	)
 
 }
