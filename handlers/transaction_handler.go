@@ -25,7 +25,7 @@ func (th *TransactionHandler) Save(c *fiber.Ctx) error {
 	err := c.BodyParser(&trans)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"status":  400,
+			"status":  400 ,
 			"message": err.Error(),
 		})
 	}
