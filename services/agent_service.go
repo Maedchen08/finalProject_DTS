@@ -36,10 +36,10 @@ func (as *AgentService) GetById(id int) (models.Agents, error) {
 	return agent, nil
 }
 
-func (as *AgentService) GetAll() ([]models.Agents, error){
+func (as *AgentService) GetAll() ([]models.Agents, error) {
 	agents, err := as.agentRepository.GetAgent()
 	if err != nil {
-		return agents,err
+		return agents, err
 	}
-	return agents,nil
+	return agents, nil
 }
