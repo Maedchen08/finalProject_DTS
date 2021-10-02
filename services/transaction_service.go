@@ -20,7 +20,7 @@ type TransactionServiceInterface interface {
 func (ts *TransactionService) Save(newTransaction *models.Transactions) (*models.Transactions, error) {
 	id, err := ts.transaction.Save(newTransaction)
 	if err != nil {
-		return nil, err
+		return nil,err
 	}
 	newTransaction.Id = id
 	return newTransaction, nil
