@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"AntarJemput-Be-C/models"
-
+	"AntarJemput-Be-C/models/enum"
 	"gorm.io/gorm"
 )
 
@@ -23,6 +23,7 @@ type TransactionRepoInterface interface {
 	ChangeDone(transaction *models.Transactions) error
 	GetAll() ([]models.Transactions, error)
 	GetById(id int) (models.Transactions, error)
+	DeleteTransaction(id int) error
 }
 
 func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
@@ -35,17 +36,18 @@ func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
 
 //change status to confirmed
 func (tr *TransactionRepo) ChangeConfirmed(t *models.Transactions) error {
-	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", "confirmed").Error
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.InConfirm).Error
 	if err != nil {
 		return err
 	}
 	tr.DB.Save(&models.Transactions{})
+
 	return nil
 }
 
 //change status to reject
 func (tr *TransactionRepo) ChangeReject(t *models.Transactions) error {
-	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", "reject").Error
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.Cancel).Error
 	if err != nil {
 		return err
 	}
@@ -55,7 +57,7 @@ func (tr *TransactionRepo) ChangeReject(t *models.Transactions) error {
 
 //change status to confirmed
 func (tr *TransactionRepo) ChangeDone(t *models.Transactions) error {
-	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", "done").Error
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.Done).Error
 	if err != nil {
 		return err
 	}
@@ -85,4 +87,19 @@ func (tr *TransactionRepo) GetById(id int) (models.Transactions, error) {
 		return transaction, gorm.ErrRecordNotFound
 	}
 	return transaction, nil
+}
+
+//  delete transaction 
+func (tr *TransactionRepo) DeleteTransaction(id int) error{
+	var trans models.Transactions
+	result := tr.DB.Where("id = ?", id).Delete(&trans)
+
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
+
 }

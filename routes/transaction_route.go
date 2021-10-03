@@ -21,4 +21,5 @@ func (tr *TransactionRoutes) InitialTransactionRoutes(app *fiber.App) {
 	app.Get(GETBYID_TRANSACTION, tr.transactionHandler.GetById)
 	app.Post(POST_REJECT_TRANSACTION, tr.transactionHandler.ChangeRejected)
 	app.Post(POST_DONE_TRANSACTION, tr.transactionHandler.ChangeDone)
+	app.Delete(DELETE_TRANSACTION,tr.transactionHandler.DeleteTransaction)
 }

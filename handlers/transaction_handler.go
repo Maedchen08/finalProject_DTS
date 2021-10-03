@@ -27,6 +27,7 @@ type TransactionHandlerInterface interface {
 	ChangeDone(c *fiber.Ctx) error
 	GetAll(c *fiber.Ctx) error
 	GetById(c *fiber.Ctx) error
+	DeleteTransaction(c *fiber.Ctx) error
 }
 
 //Add Transaction
@@ -220,5 +221,30 @@ func (th *TransactionHandler) GetById(c *fiber.Ctx) error {
 		"status":  200,
 		"message": "success",
 		"data":    response,
+	})
+}
+
+//delete
+func (th *TransactionHandler) DeleteTransaction(c *fiber.Ctx) error {
+	id, _ := strconv.Atoi(c.Params("id"))
+	err := th.transactionService.DeleteTransaction(id)
+	if err != nil {
+		// if errors.Is(err, gorm.ErrRecordNotFound) {
+		// 	return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+		// 		"error":true,
+		// 		"message":"data not found",
+
+		// 	})
+		// }
+
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error":   true,
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"error":   false,
+		"message": "success delete transaction",
 	})
 }

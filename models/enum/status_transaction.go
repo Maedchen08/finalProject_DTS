@@ -14,5 +14,5 @@ func (st StatusTransaction) EnumIndex() int {
 }
 
 func (st StatusTransaction) String() string {
-	return [...]string{"konfirmasi", "inprogress", "canceled", "done"}[st-1]
+	return [...]string{"menunggu konfirmasi anda", "agent dalam perjalanan", "dibatalkan", "selesai"}[st-1]
 }

@@ -20,6 +20,7 @@ type TransactionServiceInterface interface {
 	ChangesDone(t *models.Transactions) (models.Transactions, error)
 	GetAll() ([]models.Transactions, error)
 	GetById(id int) (models.Transactions, error)
+	DeleteTransaction(id int) error
 }
 
 func (ts *TransactionService) Save(newTransaction *models.Transactions) (*models.Transactions, error) {
@@ -81,4 +82,13 @@ func (ts *TransactionService) GetById(id int) (models.Transactions, error) {
 		return trans, err
 	}
 	return trans, nil
+}
+
+//delete a transaction by Id
+func (ts *TransactionService) DeleteTransaction(id int) error {
+	err := ts.transaction.DeleteTransaction(id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
