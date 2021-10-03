@@ -31,10 +31,12 @@ const POST_AGENT_TRANSACTION = "/transaksi/cariagent"
 const POST_CONFIRM_TRANSACTION = "/transaksi/dikonfirmasi"
 const POST_REJECT_TRANSACTION = "/transaksi/dibatalkan"
 const POST_DONE_TRANSACTION = "/transaksi/selesai"
+const GETBYID_TRANSACTION = "/transaksi/:id"
 const GETBYID_TRANSACTION_CUSTOMER = "/transaksi/customer/:id"
 const GETBYID_TRANSACTION_AGENT = "/transaksi/agent/:id"
 const GETALL_TRANSACTION = "/transaksi"
 const DELETE_TRANSACTION = "/transaksi/:id"
+
 
 //auth
 const POST_REGISTER = "/register"
