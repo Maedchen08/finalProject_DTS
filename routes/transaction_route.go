@@ -16,4 +16,6 @@ func NewTransRoutes(transHandler handlers.TransactionHandlerInterface) *Transact
 
 func (tr *TransactionRoutes) InitialTransactionRoutes(app *fiber.App) {
 	app.Post(POST_TRANSACTION, tr.transactionHandler.Save)
+	app.Post(POST_CONFIRM_TRANSACTION, tr.transactionHandler.ChangeConfirmed)
+	app.Get(GETALL_TRANSACTION, tr.transactionHandler.GetAll)
 }
