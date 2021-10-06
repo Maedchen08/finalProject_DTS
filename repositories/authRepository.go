@@ -21,6 +21,7 @@ type AuthRepoInterface interface {
 	Register(users *models.Users) (int, error)
 	GetUser() ([]models.Users, error)
 	GetUserId(id int) (models.Users, error)
+	// Login(username string) (models.Users, error)
 }
 
 func (ar *AuthRepository) Register(users *models.Users) (int, error) {
@@ -36,6 +37,20 @@ func (ar *AuthRepository) GetUser() ([]models.Users, error) {
 	findUser := ar.DB.Find(&users)
 	return users, findUser.Error
 }
+
+// func (ar *AuthRepository) Login() ([]models.Users, error) {
+// 	var users models.Users
+// 	query := `SELECT * FROM Users WHERE username =?`
+// 	err := ar.DB.Raw(query, users.Username).Scan(&users).Error
+
+// 	if err != nil {
+// 		return users, err
+// 	}
+// 	if users.Username == 0 {
+// 		return users, gorm.ErrRecordNotFound
+// 	}
+// 	return users, nil
+// }
 
 func (ar *AuthRepository) GetUserId(id int) (models.Users, error) {
 	var users models.Users
