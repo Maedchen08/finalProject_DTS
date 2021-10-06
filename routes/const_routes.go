@@ -41,4 +41,5 @@ const DELETE_TRANSACTION = "/transaksi/:id"
 //auth
 const POST_REGISTER = "/register"
 const GETALL_USERS = "/users"
+const LOGIN = "/login"
 const GETBYID_USERS = "/users/:id"

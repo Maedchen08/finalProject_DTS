@@ -246,7 +246,7 @@ func (th *TransactionHandler) DeleteTransaction(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"status":   200,
+		"status":  200,
 		"message": "success delete transaction",
 		"data": fiber.Map{
 			"id_transaction": id,

@@ -17,5 +17,5 @@ func NewAuthRoutes(authHandler handlers.UserHandlerInterface) *AuthsRoutes {
 func (ar *AuthsRoutes) InitialAuthRoutes(app *fiber.App) {
 	app.Post(POST_REGISTER, ar.authHandler.Register)
 	app.Get(GETALL_USERS, ar.authHandler.GetAll)
-	// app.Get(GETBYID_USERS, ar.authHandler.GetById)
+	app.Post(LOGIN, ar.authHandler.Login)
 }

@@ -22,7 +22,7 @@ type TransactionRepoInterface interface {
 	ChangeReject(transaction *models.Transactions) error
 	ChangeDone(transaction *models.Transactions) error
 	GetAll() ([]models.Transactions, error)
-	GetById(id int) (models.Transactions,error)
+	GetById(id int) (models.Transactions, error)
 	DeleteTransaction(id int) error
 	// AddAgent(transaction *models.Transactions) (int, error)
 	GetByAgentId(id int) (models.Transactions,error)
@@ -94,7 +94,7 @@ func (tr *TransactionRepo) GetById(id int) (models.Transactions, error) {
 //  delete transaction 
 func (tr *TransactionRepo) DeleteTransaction(id int) error{
 	var trans models.Transactions
-	result := tr.DB.Where("id = ?", id).Delete(&trans)
+	result := tr.DB.Where("id =?", id).Delete(&trans)
 
 	if result.Error != nil {
 		return result.Error
