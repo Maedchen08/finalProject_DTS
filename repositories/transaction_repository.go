@@ -93,7 +93,7 @@ func (tr *TransactionRepo) GetById(id int) (models.Transactions, error) {
 //  delete transaction 
 func (tr *TransactionRepo) DeleteTransaction(id int) error{
 	var trans models.Transactions
-	result := tr.DB.Where("id = ?", id).Delete(&trans)
+	result := tr.DB.Where("id =?", id).Delete(&trans)
 
 	if result.Error != nil {
 		return result.Error
