@@ -24,6 +24,7 @@ type TransactionRepoInterface interface {
 	GetAll() ([]models.Transactions, error)
 	GetById(id int) (models.Transactions, error)
 	DeleteTransaction(id int) error
+	// AddAgent(transaction *models.Transactions) (int, error)
 }
 
 func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
@@ -36,7 +37,7 @@ func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
 
 //change status to confirmed
 func (tr *TransactionRepo) ChangeConfirmed(t *models.Transactions) error {
-	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.InConfirm).Error
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.Confirm).Error
 	if err != nil {
 		return err
 	}
@@ -47,7 +48,7 @@ func (tr *TransactionRepo) ChangeConfirmed(t *models.Transactions) error {
 
 //change status to reject
 func (tr *TransactionRepo) ChangeReject(t *models.Transactions) error {
-	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.Cancel).Error
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.Canceled).Error
 	if err != nil {
 		return err
 	}
@@ -55,9 +56,9 @@ func (tr *TransactionRepo) ChangeReject(t *models.Transactions) error {
 	return nil
 }
 
-//change status to confirmed
+//change status to done
 func (tr *TransactionRepo) ChangeDone(t *models.Transactions) error {
-	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.Done).Error
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction",enum.Done).Error
 	if err != nil {
 		return err
 	}
@@ -103,3 +104,8 @@ func (tr *TransactionRepo) DeleteTransaction(id int) error{
 	return nil
 
 }
+
+//cari agent
+// func (tr *TransactionRepo) AddAgent(transaction *models.Transactions) (int,error){
+// 	query := "INSERT INTO transaction "
+// }

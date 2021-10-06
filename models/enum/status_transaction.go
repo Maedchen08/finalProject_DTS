@@ -3,9 +3,9 @@ package enum
 type StatusTransaction int
 
 const (
-	InConfirm StatusTransaction = iota + 1 //enum indec 1
-	Otw
-	Cancel
+	InConfirm StatusTransaction = iota  //enum indec 1
+	Confirm
+	Canceled
 	Done
 )
 
@@ -14,5 +14,5 @@ func (st StatusTransaction) EnumIndex() int {
 }
 
 func (st StatusTransaction) String() string {
-	return [...]string{"menunggu konfirmasi anda", "agent dalam perjalanan", "dibatalkan", "selesai"}[st-1]
+	return [...]string{"menunggu konfirmasi agen", "agent dalam perjalanan", "dibatalkan", "selesai"}[st]
 }

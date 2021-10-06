@@ -1,6 +1,7 @@
 package models
 
 import (
+
 	"AntarJemput-Be-C/models/enum"
 
 	"gorm.io/gorm"
@@ -17,7 +18,7 @@ type Transactions struct {
 	Regency           string `gorm:"column:regency;type:varchar(30)" json:"regency"`
 	City              string `gorm:"column:city;type:varchar(30)" json:"city"`
 	Amount            int    `gorm:"column:amount;not null" json:"amount"`
-	StatusTransaction enum.StatusTransaction `gorm:"column:status_transaction;not null" json:"status_transaction"`
+	StatusTransaction enum.StatusTransaction `gorm:"column:status_transaction;not null;default:0" json:"status_transaction"`
 	Rating            int    `gorm:"column:rating" json:"rating"`
 }
 
