@@ -28,6 +28,8 @@ type TransactionHandlerInterface interface {
 	GetAll(c *fiber.Ctx) error
 	GetById(c *fiber.Ctx) error
 	DeleteTransaction(c *fiber.Ctx) error
+	GetByAgentId(c *fiber.Ctx) error
+	GetByCustomerId(c *fiber.Ctx) error
 }
 
 //Add Transaction
@@ -249,5 +251,37 @@ func (th *TransactionHandler) DeleteTransaction(c *fiber.Ctx) error {
 		"data": fiber.Map{
 			"id_transaction": id,
 		},
+	})
+}
+
+func (th *TransactionHandler) GetByAgentId(c *fiber.Ctx) error {
+	id, _ := strconv.Atoi(c.Params("id"))
+	response, err := th.transactionService.GetByAgentId(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"status":  404,
+			"message": err.Error(),
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"status":  200,
+		"message": "success",
+		"data":    response,
+	})
+}
+
+func (th *TransactionHandler) GetByCustomerId(c *fiber.Ctx) error {
+	id, _ := strconv.Atoi(c.Params("id"))
+	response, err := th.transactionService.GetByCustomerId(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"status":  404,
+			"message": err.Error(),
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"status":  200,
+		"message": "success",
+		"data":    response,
 	})
 }
