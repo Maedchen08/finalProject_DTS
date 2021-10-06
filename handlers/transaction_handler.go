@@ -28,11 +28,13 @@ type TransactionHandlerInterface interface {
 	GetAll(c *fiber.Ctx) error
 	GetById(c *fiber.Ctx) error
 	DeleteTransaction(c *fiber.Ctx) error
+	GetByIdAgen(c *fiber.Ctx) error
 }
 
 //Add Transaction
 func (th *TransactionHandler) Save(c *fiber.Ctx) error {
-	trans := &models.Transactions{}
+	//trans := &models.Transactions{}
+	trans := make(map[string]int)
 	err := c.BodyParser(&trans)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -40,12 +42,21 @@ func (th *TransactionHandler) Save(c *fiber.Ctx) error {
 			"message": err.Error(),
 		})
 	}
-	response, err := th.transactionService.Save(trans)
+	// response, err := th.transactionService.Save(trans)
+
+	// if err != nil {
+	// 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+	// 		"status":  500,
+	// 		"message": err.Error(),
+	// 	})
+	// }
+
+	response, err := th.transactionService.GetByIdAgen(5)
 
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"status":  500,
-			"message": err.Error(),
+		return c.Status(fiber.StatusAccepted).JSON(fiber.Map{
+			"status":  202,
+			"message": "Data Agen Tidak Ditemukan",
 		})
 	}
 
