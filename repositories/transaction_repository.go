@@ -22,7 +22,7 @@ type TransactionRepoInterface interface {
 	ChangeReject(transaction *models.Transactions) error
 	ChangeDone(transaction *models.Transactions) error
 	GetAll() ([]models.Transactions, error)
-	GetById(id int) (models.Transactions, error)
+	GetById(id int) (models.Transactions,error)
 	DeleteTransaction(id int) error
 	// AddAgent(transaction *models.Transactions) (int, error)
 }
