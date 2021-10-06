@@ -18,4 +18,5 @@ func (cr *CustomerRoute) InitialCustomerRoute(app *fiber.App) {
 	app.Post(POST_CUSTOMER, cr.customerHandler.Save)
 	app.Get(GETALL_CUSTOMER, cr.customerHandler.GetAll)
 	app.Get(GETBYID_CUSTOMER, cr.customerHandler.GetById)
+	
 }
