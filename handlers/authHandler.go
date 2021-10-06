@@ -5,10 +5,14 @@ import (
 	"AntarJemput-Be-C/services"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
+
+// const SecretKey = "secret"
 
 type AuthHandler struct {
 	authService services.AuthServiceInterface
+	DB          *gorm.DB
 }
 
 func NewAuthHandler(authService services.AuthServiceInterface) *AuthHandler {
@@ -19,6 +23,7 @@ type UserHandlerInterface interface {
 	Register(c *fiber.Ctx) error
 	// GetById(c *fiber.Ctx) error
 	GetAll(c *fiber.Ctx) error
+	Login(c *fiber.Ctx) error
 }
 
 func (a *AuthHandler) Register(c *fiber.Ctx) error {
@@ -49,9 +54,27 @@ func (a *AuthHandler) Register(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"status":  201,
+		// "status":  201,
 		"message": "Success",
-		"data":    users,
+		// "data":    users,
+	})
+}
+
+func (a *AuthHandler) Login(c *fiber.Ctx) error {
+	var data map[string]string
+
+	if err := c.BodyParser(&data); err != nil {
+		return err
+	}
+
+	// users := &models.Users{}
+
+	// findLogin := a.DB.Where("username = ?").First(&users)
+	// findLogin, _ := a.authService.Login(data["username"])
+
+	return c.JSON(fiber.Map{
+		"message": "success",
+		"data":    data,
 	})
 }
 
