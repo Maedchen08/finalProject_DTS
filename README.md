@@ -5,7 +5,7 @@
 
 *kelompok C*
 1. Rahma Asdarina Badegeil
-2. Maulana Sofi
+2. Mochamad Sofi Maulana
 3. Ancas Prasetya Nugroho
 4. Muhammad Zikri
 5. Eka Nur Rahmawati

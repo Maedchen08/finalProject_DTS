@@ -25,8 +25,10 @@ type TransactionRepoInterface interface {
 	GetAll() ([]models.Transactions, error)
 	GetById(id int) (models.Transactions, error)
 	DeleteTransaction(id int) error
-	GetByIdAgen(id int) (models.Transactions, error)
+	//GetByIdAgen(id int) (models.Transactions, error)
 	// AddAgent(transaction *models.Transactions) (int, error)
+	GetByAgentId(id int) ([]models.Transactions, error)
+	GetByCustomerId(id int) ([]models.Transactions, error)
 }
 
 func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
@@ -37,22 +39,22 @@ func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
 	return transaction.Id, nil
 }
 
-//new test
-func (tr *TransactionRepo) GetByIdAgen(id int) (models.Transactions, error) {
-	var transaction models.Transactions
-	// var servis models.ServiceTransaction
-	// query := `SELECT a.id, b.type_transaction_name, a.amount, a.customers_id, a.agents_id, a.address, a.province, a.regency, a.city, a.status_transaction FROM transaction a left JOIN type_service_transaction b ON a.type_transaction_id = b.id WHERE a.id=?`;
-	query := `SELECT * FROM transaction WHERE agent_id = ?`
-	err := tr.DB.Raw(query, id).Scan(&transaction).Error
+// //new test
+// func (tr *TransactionRepo) GetByIdAgen(id int) (models.Transactions, error) {
+// 	var transaction models.Transactions
+// 	// var servis models.ServiceTransaction
+// 	// query := `SELECT a.id, b.type_transaction_name, a.amount, a.customers_id, a.agents_id, a.address, a.province, a.regency, a.city, a.status_transaction FROM transaction a left JOIN type_service_transaction b ON a.type_transaction_id = b.id WHERE a.id=?`;
+// 	query := `SELECT * FROM transaction WHERE agent_id = ?`
+// 	err := tr.DB.Raw(query, id).Scan(&transaction).Error
 
-	if err != nil {
-		return transaction, err
-	}
-	if transaction.AgentId == 0 {
-		return transaction, gorm.ErrRecordNotFound
-	}
-	return transaction, nil
-}
+// 	if err != nil {
+// 		return transaction, err
+// 	}
+// 	if transaction.AgentId == 0 {
+// 		return transaction, gorm.ErrRecordNotFound
+// 	}
+// 	return transaction, nil
+// }
 
 //change status to confirmed
 func (tr *TransactionRepo) ChangeConfirmed(t *models.Transactions) error {
@@ -95,8 +97,6 @@ func (tr *TransactionRepo) GetAll() ([]models.Transactions, error) {
 //Get transaksi by Id
 func (tr *TransactionRepo) GetById(id int) (models.Transactions, error) {
 	var transaction models.Transactions
-	// var servis models.ServiceTransaction
-	// query := `SELECT a.id, b.type_transaction_name, a.amount, a.customers_id, a.agents_id, a.address, a.province, a.regency, a.city, a.status_transaction FROM transaction a left JOIN type_service_transaction b ON a.type_transaction_id = b.id WHERE a.id=?`;
 	query := `SELECT * FROM transaction WHERE id = ?`
 	err := tr.DB.Raw(query, id).Scan(&transaction).Error
 
@@ -128,3 +128,17 @@ func (tr *TransactionRepo) DeleteTransaction(id int) error {
 // func (tr *TransactionRepo) AddAgent(transaction *models.Transactions) (int,error){
 // 	query := "INSERT INTO transaction "
 // }
+
+//Get transaksi by agent Id
+func (tr *TransactionRepo) GetByAgentId(id int) ([]models.Transactions, error) {
+	var transaction []models.Transactions
+	transactionAgent := tr.DB.Where("agents_id = ?", id).Find(&transaction)
+	return transaction, transactionAgent.Error
+}
+
+//Get transaksi by customer Id
+func (tr *TransactionRepo) GetByCustomerId(id int) ([]models.Transactions, error) {
+	var transaction []models.Transactions
+	transactionAgent := tr.DB.Where("customers_id = ?", id).Find(&transaction)
+	return transaction, transactionAgent.Error
+}
