@@ -30,7 +30,7 @@ type TransactionHandlerInterface interface {
 
 //Add Transaction
 func (th *TransactionHandler) Save(c *fiber.Ctx) error {
-	trans := make(map[string]int)
+	trans := &models.Transactions{}
 	err := c.BodyParser(&trans)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -38,7 +38,6 @@ func (th *TransactionHandler) Save(c *fiber.Ctx) error {
 			"message": err.Error(),
 		})
 	}
-	// response, err := th.transactionService.Save(trans)
 
 	if trans.Amount < 50000 && trans.Amount <= 10000000 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -48,17 +47,17 @@ func (th *TransactionHandler) Save(c *fiber.Ctx) error {
 	}
 	response, err := th.transactionService.Save(trans)
 
-	// if err != nil {
-	// 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-	// 		"status":  500,
-	// 		"message": err.Error(),
-	// 	})
-	// }
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  500,
+			"message": err.Error(),
+		})
+	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"status":  201,
 		"message": "Success",
-		"data":    trans,
+		"data":    response,
 	})
 
 }
