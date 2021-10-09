@@ -17,6 +17,7 @@ type AgentServiceInterface interface {
 	Save(agent *models.Agents) (*models.Agents, error)
 	GetAll() ([]models.Agents, error)
 	GetById(id int) (models.Agents, error)
+	SearchAgent(city string) (models.Agents, error)
 }
 
 func (as *AgentService) Save(agent *models.Agents) (*models.Agents, error) {
@@ -42,4 +43,13 @@ func (as *AgentService) GetAll() ([]models.Agents, error) {
 		return agents, err
 	}
 	return agents, nil
+}
+
+func (as *AgentService) SearchAgent(city string) (models.Agents, error) {
+	agent, err := as.agentRepository.SearchAgent(city)
+	if err != nil {
+		return agent, err
+	}
+
+	return agent, nil
 }
