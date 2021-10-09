@@ -82,8 +82,20 @@ func (ah *AgentHandler) GetAll(c *fiber.Ctx) error {
 }
 
 func (ah *AgentHandler) SearchAgent(c *fiber.Ctx) error {
-	city := c.Params("city")
-	response, err := ah.agentService.SearchAgent(city)
+	//data := &models.Agents{}
+	//var data map[string]int
+	var data models.Agents
+	err := c.BodyParser(&data)
+	//agent_name := data.Name
+	agent_district := data.DistrictId
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status":  400,
+			"message": err.Error(),
+		})
+	}
+
+	response, err := ah.agentService.SearchAgent(agent_district)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -103,4 +115,5 @@ func (ah *AgentHandler) SearchAgent(c *fiber.Ctx) error {
 		"msg":    "success retrieve data",
 		"result": response,
 	})
+
 }
