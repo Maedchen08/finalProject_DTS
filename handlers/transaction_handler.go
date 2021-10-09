@@ -3,8 +3,9 @@ package handlers
 import (
 	"AntarJemput-Be-C/models"
 	"AntarJemput-Be-C/services"
-	"github.com/gofiber/fiber/v2"
 	"strconv"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type TransactionHandler struct {
@@ -38,10 +39,10 @@ func (th *TransactionHandler) Save(c *fiber.Ctx) error {
 		})
 	}
 
-	if trans.Amount <50000 && trans.Amount<=10000000{
+	if trans.Amount < 50000 && trans.Amount <= 10000000 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"status": 400,
-			"message":"please fill amount more than 50000 and less than 10000000",
+			"status":  400,
+			"message": "please fill amount more than 50000 and less than 10000000",
 		})
 	}
 	response, err := th.transactionService.Save(trans)
