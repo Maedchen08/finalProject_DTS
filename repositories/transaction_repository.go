@@ -58,13 +58,12 @@ func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
 
 //change status to confirmed
 func (tr *TransactionRepo) ChangeConfirmed(t *models.Transactions) error {
-	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.Confirm).Error
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.StatusTransaction.EnumIndex(1)).Error
 	if err != nil {
 		return err
 	}
-	tr.DB.Save(&models.Transactions{})
-
 	return nil
+	
 }
 
 //change status to reject
@@ -73,7 +72,6 @@ func (tr *TransactionRepo) ChangeReject(t *models.Transactions) error {
 	if err != nil {
 		return err
 	}
-	tr.DB.Save(&models.Transactions{})
 	return nil
 }
 
@@ -83,7 +81,6 @@ func (tr *TransactionRepo) ChangeDone(t *models.Transactions) error {
 	if err != nil {
 		return err
 	}
-	tr.DB.Save(&models.Transactions{})
 	return nil
 }
 

@@ -57,7 +57,7 @@ func (ar *AgentRepository) SearchAgent(city string) (models.Agents, error) {
 	var agent models.Agents
 	var transaction models.Transactions
 	//query := `SELECT * FROM agent JOIN transaction ON agent.city = city`
-	query := `SELECT * FROM agent LEFT JOIN transaction USING(city)`
+	query := `SELECT * FROM agent LEFT JOIN transaction USING(DistrictId)`
 	//query := `SELECT * FROM agent WHERE city =?`
 
 	err := ar.DB.Raw(query, city).Scan(&agent).Error
@@ -65,7 +65,7 @@ func (ar *AgentRepository) SearchAgent(city string) (models.Agents, error) {
 		return agent, err
 	}
 
-	if agent.City == transaction.City {
+	if agent.DistrictId == transaction.DistrictId {
 		return agent, gorm.ErrRecordNotFound
 	}
 

@@ -33,11 +33,6 @@ func (cli *Cli) Run(application *app.Application) {
 	// set up connection
 	connDB := database.InitDb()
 
-	//role services
-	roleRepository := repositories.NewRoleRepository(connDB)
-	roleService := services.NewRoleService(roleRepository)
-	roleHandler := handlers.NewRoleHandler(roleService)
-
 	//agent services
 	agentRepository := repositories.NewAgentRepository(connDB)
 	agentService := services.NewAgentService(agentRepository)
@@ -69,7 +64,6 @@ func (cli *Cli) Run(application *app.Application) {
 	authHandler := handlers.NewAuthHandler(authService)
 
 	//REGISTER HANDLER TO Routes
-	roleRoute := route.NewRoleRoutes(roleHandler)
 	agentRoute := route.NewAgentRoutes(agentHandler)
 	customerRoute := route.NewCustomerRoutes(customerHandler)
 	sTRoute := route.NewSTRoutes(serviceTransacHandler)
@@ -77,7 +71,6 @@ func (cli *Cli) Run(application *app.Application) {
 	transRoute := route.NewTransRoutes(transactionHandler)
 	authRoute := route.NewAuthRoutes(authHandler)
 
-	roleRoute.InitialRoleRoutes(app)
 	agentRoute.InitialAgentRoutes(app)
 	customerRoute.InitialCustomerRoute(app)
 	sTRoute.InitialSTRoute(app)

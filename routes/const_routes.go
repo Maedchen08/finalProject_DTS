@@ -1,10 +1,5 @@
 package routes
 
-//role
-const POST_ROLE = "/role"
-const GETALL_ROLE = "/role"
-const GETBYID_ROLE = "/role/:id"
-
 //agents
 const POST_AGENTS = "/agents"
 const GETALL_AGENTS = "/agents"
