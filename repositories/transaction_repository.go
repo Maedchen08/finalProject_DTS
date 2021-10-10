@@ -27,7 +27,8 @@ type TransactionRepoInterface interface {
 	// AddAgent(transaction *models.Transactions) (int, error)
 	GetByAgentId(id int) ([]models.Transactions,error)
 	GetByCustomerId(id int) ([]models.Transactions,error)
-
+	RatingTransaction(transaction *models.Transactions) error
+	RatingAgent(id int) (models.AgentRating,error)
 }
 
 func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
@@ -123,4 +124,29 @@ func (tr *TransactionRepo) GetByCustomerId(id int) ([]models.Transactions, error
 	var transaction []models.Transactions
 	transactionAgent := tr.DB.Where("customers_id = ?", id).Find(&transaction)
 	return transaction, transactionAgent.Error
+}
+
+// Post Rating Transaction
+func (tr *TransactionRepo) RatingTransaction(t *models.Transactions) error {
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction",enum.Done).Error
+	if err != nil {
+		return err
+	}
+	tr.DB.Save(&models.Transactions{})
+	return nil
+}
+
+//Get Rating Agent
+func (tr *TransactionRepo) RatingAgent(id int) (models.AgentRating, error) {
+	var agen_rating models.AgentRating
+	query := `SELECT agents_id,  COUNT(*) as total, CONVERT(AVG(rating), DECIMAL(4,1)) as avg_rating FROM transaction WHERE rating IS NOT NULL AND agents_id = ?`
+	err := tr.DB.Raw(query, id).Scan(&agen_rating).Error
+
+	if err != nil {
+		return agen_rating, err
+	}
+	if agen_rating.AgentId == 0 {
+		return agen_rating, gorm.ErrRecordNotFound
+	}
+	return agen_rating, nil
 }
