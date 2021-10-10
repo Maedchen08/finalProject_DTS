@@ -1,14 +1,12 @@
 package routes
 
-//role
-const POST_ROLE = "/role"
-const GETALL_ROLE = "/role"
-const GETBYID_ROLE = "/role/:id"
-
 //agents
 const POST_AGENTS = "/agents"
 const GETALL_AGENTS = "/agents"
 const GETBYID_AGENTS = "/agents/:id"
+
+//cari_agen
+const POST_SEARCH_AGENT = "/cariagen"
 
 //customer
 const POST_CUSTOMER = "/customer"
@@ -39,8 +37,8 @@ const GETBYID_TRANSACTION_AGENT = "/transaksi/agent/:id"
 const GETALL_TRANSACTION = "/transaksi"
 const DELETE_TRANSACTION = "/transaksi/:id"
 
-
 //auth
 const POST_REGISTER = "/register"
 const GETALL_USERS = "/users"
+const LOGIN = "/login"
 const GETBYID_USERS = "/users/:id"

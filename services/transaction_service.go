@@ -21,6 +21,7 @@ type TransactionServiceInterface interface {
 	GetAll() ([]models.Transactions, error)
 	GetById(id int) (models.Transactions, error)
 	DeleteTransaction(id int) error
+	//GetByIdAgen(id int) (models.Transactions, error)
 	GetByAgentId(id int) ([]models.Transactions, error)
 	GetByCustomerId(id int) ([]models.Transactions, error)
 	RatingTransaction(t *models.Transactions) (models.Transactions, error)
@@ -35,6 +36,15 @@ func (ts *TransactionService) Save(newTransaction *models.Transactions) (*models
 	newTransaction.Id = id
 	return newTransaction, nil
 }
+
+//new test
+// func (ts *TransactionService) GetByIdAgen(id int) (models.Transactions, error) {
+// 	trans, err := ts.transaction.GetByIdAgen(id)
+// 	if err != nil {
+// 		return trans, err
+// 	}
+// 	return trans, nil
+// }
 
 //confirm
 func (ts *TransactionService) ChangesConfirmed(t *models.Transactions) (trans models.Transactions, err error) {
