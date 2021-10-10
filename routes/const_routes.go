@@ -5,6 +5,9 @@ const POST_AGENTS = "/agents"
 const GETALL_AGENTS = "/agents"
 const GETBYID_AGENTS = "/agents/:id"
 
+//cari_agen
+const POST_SEARCH_AGENT = "/cariagen"
+
 //customer
 const POST_CUSTOMER = "/customer"
 const GETALL_CUSTOMER = "/customer"
@@ -31,7 +34,6 @@ const GETBYID_TRANSACTION_CUSTOMER = "/transaksi/customer/:id"
 const GETBYID_TRANSACTION_AGENT = "/transaksi/agent/:id"
 const GETALL_TRANSACTION = "/transaksi"
 const DELETE_TRANSACTION = "/transaksi/:id"
-
 
 //auth
 const POST_REGISTER = "/register"
