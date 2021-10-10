@@ -3,6 +3,7 @@ package repositories
 import (
 	"AntarJemput-Be-C/models"
 	"AntarJemput-Be-C/models/enum"
+
 	"gorm.io/gorm"
 )
 
@@ -22,8 +23,9 @@ type TransactionRepoInterface interface {
 	ChangeReject(transaction *models.Transactions) error
 	ChangeDone(transaction *models.Transactions) error
 	GetAll() ([]models.Transactions, error)
-	GetById(id int) (models.Transactions,error)
+	GetById(id int) (models.Transactions, error)
 	DeleteTransaction(id int) error
+	//GetByIdAgen(id int) (models.Transactions, error)
 	// AddAgent(transaction *models.Transactions) (int, error)
 	GetByAgentId(id int) ([]models.Transactions,error)
 	GetByCustomerId(id int) ([]models.Transactions,error)
@@ -39,15 +41,31 @@ func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
 	return transaction.Id, nil
 }
 
+// //new test
+// func (tr *TransactionRepo) GetByIdAgen(id int) (models.Transactions, error) {
+// 	var transaction models.Transactions
+// 	// var servis models.ServiceTransaction
+// 	// query := `SELECT a.id, b.type_transaction_name, a.amount, a.customers_id, a.agents_id, a.address, a.province, a.regency, a.city, a.status_transaction FROM transaction a left JOIN type_service_transaction b ON a.type_transaction_id = b.id WHERE a.id=?`;
+// 	query := `SELECT * FROM transaction WHERE agent_id = ?`
+// 	err := tr.DB.Raw(query, id).Scan(&transaction).Error
+
+// 	if err != nil {
+// 		return transaction, err
+// 	}
+// 	if transaction.AgentId == 0 {
+// 		return transaction, gorm.ErrRecordNotFound
+// 	}
+// 	return transaction, nil
+// }
+
 //change status to confirmed
 func (tr *TransactionRepo) ChangeConfirmed(t *models.Transactions) error {
-	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.Confirm).Error
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.StatusTransaction.EnumIndex(1)).Error
 	if err != nil {
 		return err
 	}
-	tr.DB.Save(&models.Transactions{})
-
 	return nil
+	
 }
 
 //change status to reject
@@ -56,17 +74,15 @@ func (tr *TransactionRepo) ChangeReject(t *models.Transactions) error {
 	if err != nil {
 		return err
 	}
-	tr.DB.Save(&models.Transactions{})
 	return nil
 }
 
 //change status to done
 func (tr *TransactionRepo) ChangeDone(t *models.Transactions) error {
-	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction",enum.Done).Error
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction", enum.Done).Error
 	if err != nil {
 		return err
 	}
-	tr.DB.Save(&models.Transactions{})
 	return nil
 }
 
@@ -92,10 +108,10 @@ func (tr *TransactionRepo) GetById(id int) (models.Transactions, error) {
 	return transaction, nil
 }
 
-//  delete transaction 
-func (tr *TransactionRepo) DeleteTransaction(id int) error{
+//  delete transaction
+func (tr *TransactionRepo) DeleteTransaction(id int) error {
 	var trans models.Transactions
-	result := tr.DB.Where("id = ?", id).Delete(&trans)
+	result := tr.DB.Where("id =?", id).Delete(&trans)
 
 	if result.Error != nil {
 		return result.Error
