@@ -24,4 +24,7 @@ func (tr *TransactionRoutes) InitialTransactionRoutes(app *fiber.App) {
 	app.Delete(DELETE_TRANSACTION,tr.transactionHandler.DeleteTransaction)
 	app.Get(GETBYID_TRANSACTION_AGENT, tr.transactionHandler.GetByAgentId)
 	app.Get(GETBYID_TRANSACTION_CUSTOMER, tr.transactionHandler.GetByCustomerId)
+	app.Post(POST_RATING_TRANSACTION, tr.transactionHandler.RatingTransaction)
+	app.Get(GETRATING_AGENT, tr.transactionHandler.RatingAgent)
+
 }
