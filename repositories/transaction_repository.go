@@ -27,10 +27,10 @@ type TransactionRepoInterface interface {
 	DeleteTransaction(id int) error
 	//GetByIdAgen(id int) (models.Transactions, error)
 	// AddAgent(transaction *models.Transactions) (int, error)
-	GetByAgentId(id int) ([]models.Transactions,error)
-	GetByCustomerId(id int) ([]models.Transactions,error)
+	GetByAgentId(id int) ([]models.Transactions, error)
+	GetByCustomerId(id int) ([]models.Transactions, error)
+	RatingAgent(id int) (models.AgentRating, error)
 	RatingTransaction(transaction *models.Transactions) error
-	RatingAgent(id int) (models.AgentRating,error)
 }
 
 func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
@@ -65,7 +65,7 @@ func (tr *TransactionRepo) ChangeConfirmed(t *models.Transactions) error {
 		return err
 	}
 	return nil
-	
+
 }
 
 //change status to reject
@@ -142,16 +142,6 @@ func (tr *TransactionRepo) GetByCustomerId(id int) ([]models.Transactions, error
 	return transaction, transactionAgent.Error
 }
 
-// Post Rating Transaction
-func (tr *TransactionRepo) RatingTransaction(t *models.Transactions) error {
-	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Update("status_transaction",enum.Done).Error
-	if err != nil {
-		return err
-	}
-	tr.DB.Save(&models.Transactions{})
-	return nil
-}
-
 //Get Rating Agent
 func (tr *TransactionRepo) RatingAgent(id int) (models.AgentRating, error) {
 	var agen_rating models.AgentRating
@@ -165,4 +155,13 @@ func (tr *TransactionRepo) RatingAgent(id int) (models.AgentRating, error) {
 		return agen_rating, gorm.ErrRecordNotFound
 	}
 	return agen_rating, nil
+}
+
+//Get Rating Transaction
+func (tr *TransactionRepo) RatingTransaction(t *models.Transactions) error {
+	err := tr.DB.Model(&models.Transactions{}).Where("id", t.Id).Updates(map[string]interface{}{"rating": t.Rating, "rating_comment": t.RatingComment}).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }

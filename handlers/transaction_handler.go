@@ -28,8 +28,8 @@ type TransactionHandlerInterface interface {
 
 	GetByAgentId(c *fiber.Ctx) error
 	GetByCustomerId(c *fiber.Ctx) error
-	RatingTransaction(c *fiber.Ctx) error
 	RatingAgent(c *fiber.Ctx) error
+	RatingTransaction(c *fiber.Ctx) error
 }
 
 //Add Transaction
@@ -236,52 +236,6 @@ func (th *TransactionHandler) GetByCustomerId(c *fiber.Ctx) error {
 	})
 }
 
-func (th *TransactionHandler) RatingTransaction(c *fiber.Ctx) error {
-	transaction := &models.Transactions{}
-	var mysqlErr *mysql.MySQLError
-	err1 := c.BodyParser(transaction)
-	if err1 != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error":   true,
-			"message": err1.Error(),
-		})
-	}
-	validate := utils.NewValidator()
-	err := validate.Struct(transaction)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error":   true,
-			"message": utils.ValidatorErrors(err),
-		})
-	}
-	response, err := th.transactionService.RatingTransaction(transaction)
-	if err != nil {
-		if errors.As(err, &mysqlErr) && mysqlErr.Number == 1062 {
-			return c.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
-				"error":   true,
-				"message": err.Error(),
-			})
-		}
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error":   true,
-				"message": "database not found",
-			})
-		}
-
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error":   true,
-			"message": err.Error(),
-		})
-	}
-
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"error":   false,
-		"message": "data has been update",
-		"result":  response,
-	})
-}
-
 func (th *TransactionHandler) RatingAgent(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	response, err := th.transactionService.RatingAgent(id)
@@ -295,5 +249,30 @@ func (th *TransactionHandler) RatingAgent(c *fiber.Ctx) error {
 		"status":  200,
 		"message": "success",
 		"data":    response,
+	})
+}
+
+func (th *TransactionHandler) RatingTransaction(c *fiber.Ctx) error {
+	transaction := &models.Transactions{}
+	err1 := c.BodyParser(transaction)
+	if err1 != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"status":  404,
+			"message": err1.Error(),
+		})
+	}
+
+	response, err := th.transactionService.RatingTransaction(transaction)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error":   400,
+			"message": "data not found",
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"status":  200,
+		"message": "data has been update",
+		"result":  response,
 	})
 }

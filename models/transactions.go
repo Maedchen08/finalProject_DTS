@@ -19,6 +19,7 @@ type Transactions struct {
 	Amount            int                    `gorm:"column:amount;not null" json:"amount" validate:"required,min=50000,max=10000000"`
 	StatusTransaction enum.StatusTransaction `gorm:"column:status_transaction;not null;default:0" json:"status_transaction"`
 	Rating            int                    `gorm:"column:rating" json:"rating" validate:"required,min=1,max=5"`
+	RatingComment     string           		 `gorm:"column:rating_comment;type:varchar(255);null" json:"rating_comment"`
 }
 
 func (transaction *Transactions) TableName() string {
