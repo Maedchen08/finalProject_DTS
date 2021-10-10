@@ -24,6 +24,8 @@ type TransactionHandlerInterface interface {
 	GetAll(c *fiber.Ctx) error
 	GetById(c *fiber.Ctx) error
 	DeleteTransaction(c *fiber.Ctx) error
+	//GetByIdAgen(c *fiber.Ctx) error
+
 	GetByAgentId(c *fiber.Ctx) error
 	GetByCustomerId(c *fiber.Ctx) error
 }
@@ -43,6 +45,12 @@ func (th *TransactionHandler) Save(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  400,
 			"message": "please fill amount more than 50000 and less than 10000000",
+		})
+	}
+	if trans.AgentId == 0 {
+		return c.Status(fiber.StatusAccepted).JSON(fiber.Map{
+			"status":  202,
+			"message": "Data agen tidak ditemukan",
 		})
 	}
 	response, err := th.transactionService.Save(trans)

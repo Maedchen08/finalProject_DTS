@@ -3,9 +3,11 @@ package handlers
 import (
 	"AntarJemput-Be-C/models"
 	"AntarJemput-Be-C/services"
+	"errors"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 type AgentHandler struct {
@@ -20,6 +22,7 @@ type AgentHandlerInterface interface {
 	Save(c *fiber.Ctx) error
 	GetById(c *fiber.Ctx) error
 	GetAll(c *fiber.Ctx) error
+	SearchAgent(c *fiber.Ctx) error
 }
 
 func (ah *AgentHandler) Save(c *fiber.Ctx) error {
@@ -76,4 +79,41 @@ func (ah *AgentHandler) GetAll(c *fiber.Ctx) error {
 		"message": "success",
 		"data":    agents,
 	})
+}
+
+func (ah *AgentHandler) SearchAgent(c *fiber.Ctx) error {
+	//data := &models.Agents{}
+	//var data map[string]int
+	var data models.Agents
+	err := c.BodyParser(&data)
+	//agent_name := data.Name
+	agent_district := data.DistrictId
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status":  400,
+			"message": err.Error(),
+		})
+	}
+
+	response, err := ah.agentService.SearchAgent(agent_district)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"error": true,
+				"msg":   "data not found",
+			})
+		}
+
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": true,
+			"msg":   err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"error":  false,
+		"msg":    "success retrieve data",
+		"result": response,
+	})
+
 }
