@@ -27,6 +27,7 @@ type TransactionRepoInterface interface {
 	// AddAgent(transaction *models.Transactions) (int, error)
 	GetByAgentId(id int) ([]models.Transactions,error)
 	GetByCustomerId(id int) ([]models.Transactions,error)
+	// SaveAndSearchAgent(transaction *models.Transactions)(int, error)
 
 }
 
@@ -121,3 +122,8 @@ func (tr *TransactionRepo) GetByCustomerId(id int) ([]models.Transactions, error
 	transactionAgent := tr.DB.Where("customers_id = ?", id).Find(&transaction)
 	return transaction, transactionAgent.Error
 }
+
+//cari agent 
+// func (tr *TransactionRepo) SaveAndSearchAgent(transaction *models.Transactions) (int, error){
+// }
+
