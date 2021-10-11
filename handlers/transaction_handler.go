@@ -33,7 +33,7 @@ type TransactionHandlerInterface interface {
 	GetByAgentId(c *fiber.Ctx) error
 	GetByCustomerId(c *fiber.Ctx) error
 	RatingTransaction(c *fiber.Ctx) error
-	// RatingAgent(c *fiber.Ctx) error
+	RatingAgent(c *fiber.Ctx) error
 }
 
 //Add Transaction
@@ -286,18 +286,18 @@ func (th *TransactionHandler) RatingTransaction(c *fiber.Ctx) error {
 	})
 }
 
-// func (th *TransactionHandler) RatingAgent(c *fiber.Ctx) error {
-// 	id, _ := strconv.Atoi(c.Params("id"))
-// 	response, err := th.transactionService.RatingAgent(id)
-// 	if err != nil {
-// 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-// 			"status":  404,
-// 			"message": err.Error(),
-// 		})
-// 	}
-// 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-// 		"status":  200,
-// 		"message": "success",
-// 		"data":    response,
-// 	})
-// }
+func (th *TransactionHandler) RatingAgent(c *fiber.Ctx) error {
+	id, _ := strconv.Atoi(c.Params("id"))
+	response, err := th.transactionService.RatingAgent(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"status":  404,
+			"message": err.Error(),
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"status":  200,
+		"message": "success",
+		"data":    response,
+	})
+}

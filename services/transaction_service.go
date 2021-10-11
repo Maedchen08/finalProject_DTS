@@ -25,7 +25,7 @@ type TransactionServiceInterface interface {
 	GetByAgentId(id int) ([]models.Transactions, error)
 	GetByCustomerId(id int) ([]models.Transactions, error)
 	RatingTransaction(t *models.Transactions) (models.Transactions, error)
-	// RatingAgent(id int) (models.AgentRating, error)
+	RatingAgent(id int) (models.AgentRating, error)
 }
 
 func (ts *TransactionService) Save(newTransaction *models.Transactions) (*models.Transactions, error) {
@@ -136,10 +136,10 @@ func (ts *TransactionService) RatingTransaction(t *models.Transactions) (trans m
 	return trans, nil
 }
 
-// func (ts *TransactionService) RatingAgent(id int) (models.AgentRating, error) {
-// 	trans, err := ts.transaction.RatingAgent(id)
-// 	if err != nil {
-// 		return trans, err
-// 	}
-// 	return trans, nil
-// }
+func (ts *TransactionService) RatingAgent(id int) (models.AgentRating, error) {
+	trans, err := ts.transaction.RatingAgent(id)
+	if err != nil {
+		return trans, err
+	}
+	return trans, nil
+}
