@@ -24,8 +24,8 @@ type TransactionServiceInterface interface {
 	//GetByIdAgen(id int) (models.Transactions, error)
 	GetByAgentId(id int) ([]models.Transactions, error)
 	GetByCustomerId(id int) ([]models.Transactions, error)
-	RatingTransaction(t *models.Transactions) (models.Transactions, error)
 	RatingAgent(id int) (models.AgentRating, error)
+	RatingTransaction(t *models.Transactions) (models.Transactions, error)
 }
 
 func (ts *TransactionService) Save(newTransaction *models.Transactions) (*models.Transactions, error) {
@@ -123,21 +123,22 @@ func (ts *TransactionService) GetByCustomerId(id int) ([]models.Transactions, er
 	return trans, nil
 }
 
-//Rating Transaction
-func (ts *TransactionService) RatingTransaction(t *models.Transactions) (trans models.Transactions, err error) {
-	err = ts.transaction.RatingTransaction(t)
-	if err != nil {
-		return trans, err
-	}
-	trans, err = ts.transaction.GetById(t.Id)
+// Rating Agent
+func (ts *TransactionService) RatingAgent(id int) (models.AgentRating, error) {
+	trans, err := ts.transaction.RatingAgent(id)
 	if err != nil {
 		return trans, err
 	}
 	return trans, nil
 }
 
-func (ts *TransactionService) RatingAgent(id int) (models.AgentRating, error) {
-	trans, err := ts.transaction.RatingAgent(id)
+// Rating Transaction
+func (ts *TransactionService) RatingTransaction(t *models.Transactions) (trans models.Transactions, err error) {
+	err = ts.transaction.RatingTransaction(t)
+	if err != nil {
+		return trans, err
+	}
+	trans, err = ts.transaction.GetById(t.Id)
 	if err != nil {
 		return trans, err
 	}
