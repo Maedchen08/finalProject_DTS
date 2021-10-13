@@ -15,6 +15,7 @@ func InitDb() *gorm.DB {
 	maxConn := config.GetInt("DB_MAX_CONNECTIONS")
 	maxLifetimeConn := config.GetInt("DB_MAX_LIFETIME_CONNECTIONS")
 
+
 	dsn := config.GetString("DB_SERVER_URL")
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 

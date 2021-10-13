@@ -16,9 +16,9 @@ type Transactions struct {
 	ProvinceId        int                    `gorm:"column:transaction_prov_id;not null" json:"transaction_prov_id"`
 	RegencyId         int                    `gorm:"column:transaction_regency_id;not null" json:"transaction_regency_id"`
 	DistrictId        int                    `gorm:"column:transaction_district_id;not null" json:"transaction_district_id"`
-	Amount            int                    `gorm:"column:amount;not null" json:"amount" validate:"required,min=50000,max=10000000"`
+	Amount            int                    `gorm:"column:amount;not null" json:"amount"`
 	StatusTransaction enum.StatusTransaction `gorm:"column:status_transaction;not null;default:0" json:"status_transaction"`
-	Rating            int                    `gorm:"column:rating" json:"rating" validate:"required,min=1,max=5"`
+	Rating            int                    `gorm:"column:rating" json:"rating"`
 	RatingComment     string           		 `gorm:"column:rating_comment;type:varchar(255);null" json:"rating_comment"`
 }
 
