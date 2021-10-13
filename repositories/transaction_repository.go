@@ -25,8 +25,7 @@ type TransactionRepoInterface interface {
 	GetAll() ([]models.Transactions, error)
 	GetById(id int) (models.Transactions, error)
 	DeleteTransaction(id int) error
-	//GetByIdAgen(id int) (models.Transactions, error)
-	// AddAgent(transaction *models.Transactions) (int, error)
+
 	GetByAgentId(id int) ([]models.Transactions, error)
 	GetByCustomerId(id int) ([]models.Transactions, error)
 	RatingAgent(id int) (models.AgentRating, error)
