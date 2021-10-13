@@ -82,22 +82,18 @@ func (ah *AgentHandler) GetAll(c *fiber.Ctx) error {
 }
 
 func (ah *AgentHandler) SearchAgent(c *fiber.Ctx) error {
-	//data := &models.Agents{}
-	//var data map[string]int
-	var data models.Agents
-	err := c.BodyParser(&data)
-	//agent_name := data.Name
-	agent_district := data.DistrictId
-	if err != nil {
+	var datapush models.AgentSearch
+	err2 := c.BodyParser(&datapush)
+	if err2 != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  400,
-			"message": err.Error(),
+			"message": err2.Error(),
 		})
 	}
 
-	response, err := ah.agentService.SearchAgent(agent_district)
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
+	response, errorAgent := ah.agentService.SearchAgent(datapush.DistrictId)
+	if errorAgent != nil {
+		if errors.Is(err2, gorm.ErrRecordNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"error": true,
 				"msg":   "data not found",
@@ -106,14 +102,21 @@ func (ah *AgentHandler) SearchAgent(c *fiber.Ctx) error {
 
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": true,
-			"msg":   err.Error(),
+			"msg":   err2.Error(),
+		})
+	}
+
+	if len(response) == 0 {
+		return c.Status(fiber.StatusAccepted).JSON(fiber.Map{
+			"status": 202,
+			"msg":    "Data agen tidak ditemukan",
 		})
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"error":  false,
-		"msg":    "success retrieve data",
-		"result": response,
+		"error":                 false,
+		"msg":                   "success retrieve data",
+		"data":                  datapush,
+		"list_rekomendasi_agen": response,
 	})
-
 }
