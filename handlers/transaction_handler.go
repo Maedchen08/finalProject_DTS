@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"AntarJemput-Be-C/models"
+	"AntarJemput-Be-C/models/enum"
 	"AntarJemput-Be-C/services"
 	"strconv"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -260,6 +262,14 @@ func (th *TransactionHandler) RatingTransaction(c *fiber.Ctx) error {
 			"message": err1.Error(),
 		})
 	}
+
+	if transaction.StatusTransaction != enum.Done{
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status":404,
+			"message":"you can give rating if the status transaction is done",
+		})
+	}
+
 
 	response, err := th.transactionService.RatingTransaction(transaction)
 	if err != nil {
