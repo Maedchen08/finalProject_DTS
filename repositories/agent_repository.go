@@ -22,7 +22,7 @@ type AgentRepoInterface interface {
 	Save(agent *models.Agents) (int, error)
 	GetAgent() ([]models.Agents, error)
 	GetAgentId(id int) (models.Agents, error)
-	SearchAgent(district int) (models.Agents, error)
+	SearchAgent(s int) ([]models.Agents, error)
 }
 
 func (ar *AgentRepository) Save(agent *models.Agents) (int, error) {
@@ -53,21 +53,8 @@ func (ar *AgentRepository) GetAgentId(id int) (models.Agents, error) {
 	return agent, nil
 }
 
-func (ar *AgentRepository) SearchAgent(district int) (models.Agents, error) {
-	var agent models.Agents
-	//var transaction models.Transactions
-	//query := `SELECT * FROM agent JOIN transaction ON agent.city = city`
-	//query := `SELECT * FROM agent LEFT JOIN transaction USING(DistrictId)`
-	query := `SELECT * FROM agent WHERE agent_district_id = ?`
-
-	err := ar.DB.Raw(query, district).Scan(&agent).Error
-	if err != nil {
-		return agent, err
-	}
-
-	// if agent.DistrictId == transaction.DistrictId {
-	// 	return agent, gorm.ErrRecordNotFound
-	// }
-
-	return agent, nil
+func (sa *AgentRepository) SearchAgent(s int) ([]models.Agents, error) {
+	var agents []models.Agents
+	findAgent := sa.DB.Where("agent_district_id = ?", s).Find(&agents)
+	return agents, findAgent.Error
 }
