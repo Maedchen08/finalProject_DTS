@@ -20,6 +20,10 @@ env:
     MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
     MINIO_REGION: US-EAST1
     MINIO_BUCKET: ${{ secrets.TEAM_NAME }}-rakamin
+    SERVER_READ_TIMEOUT: 60
+    DB_MAX_CONNECTIONS: 100
+    DB_MAX_IDLE_CONNECTIONS: 10
+    DB_MAX_LIFETIME_CONNECTIONS: 2
 
 jobs:
     setup-build-publish-deploy:
