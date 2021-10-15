@@ -1,9 +1,11 @@
 package config
 
 import (
-	"github.com/subosito/gotenv"
-	"log"
 	"os"
+
+	log "github.com/sirupsen/logrus"
+
+	"github.com/subosito/gotenv"
 )
 
 var appConfig *Config
@@ -20,7 +22,7 @@ func Init() *Config {
 
 	err := gotenv.Load(defaultEnv)
 	if err != nil {
-		log.Fatalf("Could not load environment")
+		log.Warning("Could not load environment")
 	}
 
 	log.SetOutput(os.Stdout)
