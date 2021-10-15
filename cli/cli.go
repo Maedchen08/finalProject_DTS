@@ -31,7 +31,7 @@ func (cli *Cli) Run(application *app.Application) {
 	app := fiber.New(fiberConfig)
 
 	// set up connection
-	connDB := database.InitDb()
+	connDB := database.InitDb(application.Config)
 
 	//agent services
 	agentRepository := repositories.NewAgentRepository(connDB)
@@ -86,8 +86,8 @@ func (cli *Cli) Run(application *app.Application) {
 
 }
 
-func StartServerWithGracefulShutdown(app *fiber.App, port int) {
-	appPort := fmt.Sprintf(":%d", port)
+func StartServerWithGracefulShutdown(app *fiber.App, port string) {
+	appPort := fmt.Sprintf(`:%s`, port)
 	idleConnsClosed := make(chan struct{})
 
 	go func() {

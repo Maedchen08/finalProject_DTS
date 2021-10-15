@@ -11,7 +11,7 @@ var appConfig *Config
 
 type Config struct {
 	AppName        string
-	AppPort        int
+	AppPort        string
 	LogLevel       string
 	Environment    string
 	JWTSecret      string
@@ -42,7 +42,7 @@ func Init() *Config {
 
 	appConfig = &Config{
 		AppName:        GetString("APP_NAME"),
-		AppPort:        GetInt("APP_PORT"),
+		AppPort:        GetString("APP_PORT"),
 		LogLevel:       GetString("LOG_LEVEL"),
 		Environment:    GetString("ENVIRONMENT"),
 		JWTSecret:      GetString("JWT_SECRET"),

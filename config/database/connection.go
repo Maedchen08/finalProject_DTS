@@ -14,19 +14,13 @@ import (
 )
 
 
-func InitDb() *gorm.DB {
+func InitDb(appConfig *config.Config) *gorm.DB {
 
 	maxIdleConn := config.GetInt("DB_MAX_IDLE_CONNECTIONS")
 	maxConn := config.GetInt("DB_MAX_CONNECTIONS")
 	maxLifetimeConn := config.GetInt("DB_MAX_LIFETIME_CONNECTIONS")
-	dbUsername := config.GetString("DB_USERNAME")
-	dbPassword := config.GetString("DB_PASSWORD")
-	dbHost := config.GetString("DB_HOST")
-	dbPort := config.GetInt("DB_PORT")
-	dbName := config.GetString("DB_NAME")
-
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=UTC",
-	dbUsername,dbPassword,dbHost,dbPort,dbName)
+	appConfig.DBUsername,appConfig.DBPassword,appConfig.DBHost,appConfig.DBPort,appConfig.DBName)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
