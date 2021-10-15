@@ -87,7 +87,7 @@ func (cli *Cli) Run(application *app.Application) {
 }
 
 func StartServerWithGracefulShutdown(app *fiber.App, port string) {
-	appPort := fmt.Sprintf(`:%s`, port)
+	appPort := fmt.Sprintf(":%d", port)
 	idleConnsClosed := make(chan struct{})
 
 	go func() {
