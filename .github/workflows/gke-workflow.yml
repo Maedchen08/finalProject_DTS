@@ -2,7 +2,7 @@ name: Build and Deploy to GKE
 on:
   push:
     branches:
-      - eka-01-add_models-app-config-utils
+      - master
 env:
     PROJECT_ID: ${{ secrets.GKE_PROJECT }}
     JWT_SECRET: ${{ secrets.JWT_SECRET }}

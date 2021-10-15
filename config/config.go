@@ -1,10 +1,11 @@
 package config
 
 import (
-	"github.com/subosito/gotenv"
-	"log"
 	"os"
 
+	log "github.com/sirupsen/logrus"
+
+	"github.com/subosito/gotenv"
 )
 
 var appConfig *Config
@@ -26,8 +27,6 @@ type Config struct {
 	MinioSecretKey string
 	MinioRegion    string
 	MinioBucket    string
-	
-
 }
 
 func Init() *Config {
@@ -35,12 +34,13 @@ func Init() *Config {
 
 	err := gotenv.Load(defaultEnv)
 	if err != nil {
-		log.Fatalf("Could not load environment")
+		log.Warning("Could not load environment")
 	}
 
 	log.SetOutput(os.Stdout)
 
 	appConfig = &Config{
+
 		AppName:        GetString("APP_NAME"),
 		AppPort:        GetString("APP_PORT"),
 		LogLevel:       GetString("LOG_LEVEL"),
@@ -50,7 +50,7 @@ func Init() *Config {
 		DBUsername:     GetString("DB_USERNAME"),
 		DBPassword:     GetString("DB_PASSWORD"),
 		DBHost:         GetString("DB_HOST"),
-		DBPort:         GetInt("DB_PORT"),
+		DBPort:         GetInt("DB_PORT", 3306),
 		DBName:         GetString("DB_NAME"),
 		MinioEndpoint:  GetString("MINIO_ENDPOINT"),
 		MinioAccessKey: GetString("MINIO_ACCESS_KEY"),
@@ -58,7 +58,6 @@ func Init() *Config {
 		MinioRegion:    GetString("MINIO_REGION"),
 		MinioBucket:    GetString("MINIO_BUCKET"),
 	}
-
 
 	return appConfig
 

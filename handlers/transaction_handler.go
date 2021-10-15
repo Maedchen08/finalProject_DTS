@@ -5,6 +5,7 @@ import (
 	"AntarJemput-Be-C/models/enum"
 	"AntarJemput-Be-C/services"
 	"strconv"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -146,10 +147,13 @@ func (th *TransactionHandler) ChangeDone(c *fiber.Ctx) error {
 		})
 	}
 
+	time := time.Now().Format(time.ANSIC)
+
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status":  200,
 		"message": "data has been update",
 		"result":  response,
+		"time":time,
 	})
 }
 
