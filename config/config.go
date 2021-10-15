@@ -4,14 +4,14 @@ import (
 	"github.com/subosito/gotenv"
 	"log"
 	"os"
-	
+
 )
 
 var appConfig *Config
 
 type Config struct {
 	AppName        string
-	AppPort        string
+	AppPort        int
 	LogLevel       string
 	Environment    string
 	JWTSecret      string
@@ -42,7 +42,7 @@ func Init() *Config {
 
 	appConfig = &Config{
 		AppName:        GetString("APP_NAME"),
-		AppPort:        GetString("APP_PORT"),
+		AppPort:        GetInt("APP_PORT"),
 		LogLevel:       GetString("LOG_LEVEL"),
 		Environment:    GetString("ENVIRONMENT"),
 		JWTSecret:      GetString("JWT_SECRET"),

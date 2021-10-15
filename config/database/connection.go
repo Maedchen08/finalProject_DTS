@@ -44,6 +44,7 @@ func InitDb() *gorm.DB {
 
 	InitCreateTable(db)
 	log.Println("database connect success")
+	log.Println("dsn :",dsn)
 	return db
 
 }
