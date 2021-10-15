@@ -15,6 +15,11 @@ type Config struct {
 	AppPort     string
 	LogLevel    string
 	Environment string
+	DBUsername  string
+	DBPassword  string
+	DBHost      string
+	DBPort      int
+	DBName      string
 }
 
 func Init() *Config {
@@ -32,6 +37,11 @@ func Init() *Config {
 		AppPort:     GetString("APP_PORT"),
 		LogLevel:    GetString("LOG_LEVEL"),
 		Environment: GetString("ENVIRONMENT"),
+		DBUsername:  GetString("DB_USERNAME"),
+		DBPassword:  GetString("DB_PASSWORD"),
+		DBHost:      GetString("DB_HOST"),
+		DBPort:      GetInt("DB_PORT", 3306),
+		DBName:      GetString("DB_NAME"),
 	}
 
 	return appConfig

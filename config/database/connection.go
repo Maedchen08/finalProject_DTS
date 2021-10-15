@@ -3,6 +3,7 @@ package database
 import (
 	"AntarJemput-Be-C/config"
 	"AntarJemput-Be-C/models"
+	"fmt"
 	"log"
 	"time"
 
@@ -10,13 +11,19 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitDb() *gorm.DB {
+func InitDb(appConfig *config.Config) *gorm.DB {
 	maxIdleConn := config.GetInt("DB_MAX_IDLE_CONNECTIONS", 10)
 	maxConn := config.GetInt("DB_MAX_CONNECTIONS", 100)
 	maxLifetimeConn := config.GetInt("DB_MAX_LIFETIME_CONNECTIONS", 2)
 
-	dsn := config.GetString("DB_SERVER_URL")
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	connStr := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=UTC",
+		appConfig.DBUsername,
+		appConfig.DBPassword,
+		appConfig.DBHost,
+		appConfig.DBPort,
+		appConfig.DBName,
+	)
+	db, err := gorm.Open(mysql.Open(connStr), &gorm.Config{})
 
 	if err != nil {
 		panic(err)

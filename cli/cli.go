@@ -31,7 +31,7 @@ func (cli *Cli) Run(application *app.Application) {
 	app := fiber.New(fiberConfig)
 
 	// set up connection
-	connDB := database.InitDb()
+	connDB := database.InitDb(application.Config)
 
 	//agent services
 	agentRepository := repositories.NewAgentRepository(connDB)
