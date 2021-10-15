@@ -11,10 +11,9 @@ import (
 )
 
 func InitDb() *gorm.DB {
-	maxIdleConn := config.GetInt("DB_MAX_IDLE_CONNECTIONS")
-	maxConn := config.GetInt("DB_MAX_CONNECTIONS")
-	maxLifetimeConn := config.GetInt("DB_MAX_LIFETIME_CONNECTIONS")
-
+	maxIdleConn := config.GetInt("DB_MAX_IDLE_CONNECTIONS", 10)
+	maxConn := config.GetInt("DB_MAX_CONNECTIONS", 100)
+	maxLifetimeConn := config.GetInt("DB_MAX_LIFETIME_CONNECTIONS", 2)
 
 	dsn := config.GetString("DB_SERVER_URL")
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -48,7 +47,6 @@ func InitCreateTable(db *gorm.DB) {
 		&models.ServiceTransaction{},
 		&models.Transactions{},
 		&models.TypeServiceTransaction{},
-		
 	)
 
 }
