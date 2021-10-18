@@ -102,7 +102,7 @@ func TestTransactionService_GetById(t *testing.T) {
 	})
 }
 
-//failed
+
 func TestTransactionService_GetAll(t *testing.T) {
 	InitMockRepo(t)
 	defer mockCtrl.Finish()
