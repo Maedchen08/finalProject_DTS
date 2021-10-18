@@ -40,7 +40,7 @@ func InitDb(appConfig *config.Config) *gorm.DB {
 	sqlDB.SetConnMaxLifetime(time.Duration(maxLifetimeConn))
 
 	InitCreateTable(db)
-	log.Println("database connect success")
+	log.Println("database connect success 🚀🚀🚀")
 	log.Println("dsn :",connStr)
 	return db
 

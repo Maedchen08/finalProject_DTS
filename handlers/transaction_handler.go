@@ -69,7 +69,19 @@ func (th *TransactionHandler) Save(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"status":  201,
 		"message": "Success",
-		"data":    response,
+		"data":response,
+		// "data":   fiber.Map{
+
+		// 	"id_cust": response.CustomerId,
+		// 	"jenis_transaksi": response.TypeTransactionId,
+		// 	"nominal_transaksi_idr": response.Amount,
+		// 	"alamat_cust_provinsi": response.ProvinceId,
+		// 	"alamat_cust_kabko": response.RegencyId,
+		// 	"alamat_cust_kecamatan": response.DistrictId,
+		// 	"alamat_cust_lengkap": response.Address,
+		// 	"id_agen": response.AgentId,
+		// 	"id_transaksi": response.Id,
+		// },
 	})
 
 }
