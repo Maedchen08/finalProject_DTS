@@ -4,9 +4,9 @@ import (
 	mocksAgent "AntarJemput-Be-C/mocks/repository"
 	"AntarJemput-Be-C/models"
 	"errors"
-	"testing"
 	"github.com/golang/mock/gomock"
 	"github.com/tj/assert"
+	"testing"
 )
 
 var (
@@ -174,15 +174,15 @@ func TestAgentService_SearchAgent(t *testing.T) {
 
 	t.Run("should return success", func(t *testing.T) {
 		repoAgentMock.EXPECT().SearchAgent(gomock.Any()).Return(payload, nil)
-		actualResponse,err := repoAgentMock.SearchAgent(inputId)
+		actualResponse, err := repoAgentMock.SearchAgent(inputId)
 		assert.Nil(t, err)
-		assert.Equal(t, actualResponse,payload)
+		assert.Equal(t, actualResponse, payload)
 	})
 
-	t.Run("should return error",func(t *testing.T) {
-		repoAgentMock.EXPECT().SearchAgent(gomock.Any()).Return(defaultAllAgentsModel,errAgentInternal)
+	t.Run("should return error", func(t *testing.T) {
+		repoAgentMock.EXPECT().SearchAgent(gomock.Any()).Return(defaultAllAgentsModel, errAgentInternal)
 		response, actualErr := serviceAgent.SearchAgent(inputId)
-		assert.Equal(t,response,defaultAllAgentsModel)
+		assert.Equal(t, response, defaultAllAgentsModel)
 		assert.Equal(t, actualErr, errAgentInternal)
 	})
 }
