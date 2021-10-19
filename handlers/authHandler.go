@@ -3,7 +3,6 @@ package handlers
 import (
 	"AntarJemput-Be-C/models"
 	"AntarJemput-Be-C/services"
-	"fmt"
 	"strconv"
 	"time"
 
@@ -31,6 +30,16 @@ type UserHandlerInterface interface {
 	Login(c *fiber.Ctx) error
 }
 
+func HashPassword(password string) (string, error) {
+    bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+    return string(bytes), err
+}
+
+func CheckPasswordHash(password, hash string) bool {
+    err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+    return err == nil
+}
+
 func (a *AuthHandler) Register(c *fiber.Ctx) error {
 
 	var data models.Users
@@ -39,7 +48,7 @@ func (a *AuthHandler) Register(c *fiber.Ctx) error {
 		return err
 	}
 
-	password, _ := bcrypt.GenerateFromPassword([]byte(data.Password), 14)
+	password, _ := HashPassword(data.Password)
 	user := models.Users{
 		RoleId:     data.RoleId,
 		CustomerId: data.CustomerId,
@@ -47,6 +56,7 @@ func (a *AuthHandler) Register(c *fiber.Ctx) error {
 		Username:   data.Username,
 		Password:   password,
 	}
+
 	a.authService.Register(&user)
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		// "status":  201,
@@ -62,12 +72,11 @@ func (a *AuthHandler) Login(c *fiber.Ctx) error {
 		return err
 	}
 
-	var user models.Users
+	// Get POST
 	username := data["username"]
 	password := data["password"]
-	// a.DB.Where("username = ?", data["username"]).First(&user)
-	respone, _ := a.authService.Login(username, password)
-	fmt.Println(user)
+
+	respone, _ := a.authService.Login(username)
 
 	// handle error
 	if uint(respone.Id) == 0 { //default Id when return nil
@@ -76,16 +85,15 @@ func (a *AuthHandler) Login(c *fiber.Ctx) error {
 			"message": "User not found!",
 		})
 	}
-	// repassword := bcrypt.CompareHashAndPassword(user.Password, []byte(password))
-	// fmt.Print(repassword)
 
 	// match password
-	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(password)); err != nil {
+	if check := CheckPasswordHash(password, respone.Password); !check {
 		c.Status(fiber.StatusBadRequest)
 		return c.JSON(fiber.Map{
 			"message": "incorrect password!",
 		})
 	}
+
 
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 		Issuer:    strconv.Itoa(int(respone.Id)),

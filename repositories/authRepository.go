@@ -3,7 +3,6 @@ package repositories
 import (
 	"AntarJemput-Be-C/models"
 
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -22,7 +21,7 @@ type AuthRepoInterface interface {
 	Register(users *models.Users) (int, error)
 	GetUser() ([]models.Users, error)
 	GetUserId(id int) (models.Users, error)
-	Login(username, password string) (models.Users, error)
+	Login(username string) (models.Users, error)
 }
 
 func (ar *AuthRepository) Register(users *models.Users) (int, error) {
@@ -39,7 +38,7 @@ func (ar *AuthRepository) GetUser() ([]models.Users, error) {
 	return users, findUser.Error
 }
 
-func (ar *AuthRepository) Login(username, password string) (models.Users, error) {
+func (ar *AuthRepository) Login(username string) (models.Users, error) {
 	var users models.Users
 	query := `SELECT * FROM Users WHERE username = ?`
 
@@ -48,18 +47,6 @@ func (ar *AuthRepository) Login(username, password string) (models.Users, error)
 	if err != nil {
 		return users, err
 	}
-	if err := bcrypt.CompareHashAndPassword(users.Password, []byte(password)); err != nil {
-		// ar.Status(fiber.StatusBadRequest)
-		return users, nil
-	}
-
-	// handle error
-	// if user.Id == 0 { //default Id when return nil
-	// 	c.Status(fiber.StatusNotFound)
-	// 	return c.JSON(fiber.Map{
-	// 		"message": "User not found!",
-	// 	})
-	// }
 
 	return users, nil
 }
