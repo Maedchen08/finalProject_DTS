@@ -62,7 +62,7 @@ func TestTransactionRepo_Save(t *testing.T) {
 	})
 }
 
-//failed
+//failed, tolong dicoba lagi
 func TestTransactionRepo_GetById(t *testing.T) {
 	t.Run("Should return success", func(t *testing.T) {
 		outputTransactionDetail := models.Transactions{
@@ -92,7 +92,7 @@ func TestTransactionRepo_GetById(t *testing.T) {
 	})
 }
 
-//failed
+//failed, tolong dicobaa lagi
 func TestTransactionRepo_GetAll(t *testing.T) {
 	t.Run("Should return success", func(t *testing.T) {
 		outputTransactionDetail := []models.Transactions{
