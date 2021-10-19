@@ -40,22 +40,6 @@ func (tr *TransactionRepo) Save(transaction *models.Transactions) (int, error) {
 	return transaction.Id, nil
 }
 
-// //new test
-// func (tr *TransactionRepo) GetByIdAgen(id int) (models.Transactions, error) {
-// 	var transaction models.Transactions
-// 	// var servis models.ServiceTransaction
-// 	// query := `SELECT a.id, b.type_transaction_name, a.amount, a.customers_id, a.agents_id, a.address, a.province, a.regency, a.city, a.status_transaction FROM transaction a left JOIN type_service_transaction b ON a.type_transaction_id = b.id WHERE a.id=?`;
-// 	query := `SELECT * FROM transaction WHERE agent_id = ?`
-// 	err := tr.DB.Raw(query, id).Scan(&transaction).Error
-
-// 	if err != nil {
-// 		return transaction, err
-// 	}
-// 	if transaction.AgentId == 0 {
-// 		return transaction, gorm.ErrRecordNotFound
-// 	}
-// 	return transaction, nil
-// }
 
 //change status to confirmed
 func (tr *TransactionRepo) ChangeConfirmed(t *models.Transactions) error {

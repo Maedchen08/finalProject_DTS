@@ -31,7 +31,7 @@ func (ch *CustomerHandler) Save(c *fiber.Ctx) error {
 			"message": err.Error(),
 		})
 	}
-	
+
 	response, err := ch.customerService.Save(customer)
 
 	if err != nil {
@@ -43,7 +43,10 @@ func (ch *CustomerHandler) Save(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"status":  200,
 		"message": "Success",
-		"data":    response,
+		"data": fiber.Map{
+			"name":  response.Name,
+			"no wa": response.NoWa,
+		},
 	})
 }
 
@@ -59,7 +62,10 @@ func (ch *CustomerHandler) GetById(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status":  200,
 		"message": "success",
-		"data":    response,
+		"data":    fiber.Map{
+			"name":response.Name,
+			"no wa": response.NoWa,
+		},
 	})
 }
 
