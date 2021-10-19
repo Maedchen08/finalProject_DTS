@@ -35,7 +35,7 @@ func TestMain(m *testing.M) {
 
 func TestTransactionRepo_Save(t *testing.T) {
 	t.Run("Should return success", func(t *testing.T) {
-		query := "INSERT INTO `transaction` (`created_at`,`updated_at`,`deleted_at`,`type_transaction_id`,`customers_id`,`agents_id`,`address`,`transaction_prov_id`,`transaction_regency_id`,`transaction_district_id`,`amount`,`status_transaction`,`rating`,`rating_comment`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+		query := "INSERT INTO `transaction` (`created_at`,`updated_at`,`deleted_at`,`type_transaction_id`,`customers_id`,`agents_id`,`address`,`transaction_prov_id`,`transaction_regency_id`,`transaction_district_id`,`amount`,`status_transaction`,`rating`,`rating_comment`,`longitude_cust`,`latitude_cust`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 		payload := &models.Transactions{
 			TypeTransactionId: 1,
 			CustomerId:        1,
@@ -48,6 +48,8 @@ func TestTransactionRepo_Save(t *testing.T) {
 			StatusTransaction: 3,
 			Rating:            5,
 			RatingComment:     "Good Service",
+			LongtitudeCust: 3.4,
+			LatitudeCust: 3.7,
 		}
 		expectedId := 1
 
@@ -77,14 +79,16 @@ func TestTransactionRepo_GetById(t *testing.T) {
 			StatusTransaction: 3,
 			Rating:            5,
 			RatingComment:     "Good Service",
+			LongtitudeCust: 3.4,
+			LatitudeCust: 3.7,
 		}
 		inputId := 1
-		query := "SELECT `type_transaction_id`,`customers_id`,`agents_id`,`address`,`transaction_prov_id`,`transaction_regency_id`,`transaction_district_id`,`amount`,`status_transaction`,`rating`,`rating_comment` FROM transaction WHERE id=?"
+		query := "SELECT `type_transaction_id`,`customers_id`,`agents_id`,`address`,`transaction_prov_id`,`transaction_regency_id`,`transaction_district_id`,`amount`,`status_transaction`,`rating`,`rating_comment`,`customers_id`,`agents_id`,`address`,`transaction_prov_id`,`transaction_regency_id`,`transaction_district_id`,`amount`,`status_transaction`,`rating`,`rating_comment`,`longitude_cust`,`latitude_cust` FROM transaction WHERE id=?"
 
 		mock.ExpectQuery(query).
 			WithArgs(inputId).
-			WillReturnRows(sqlmock.NewRows([]string{"type_transaction_id", "customers_id", "agents_id", "address", "transaction_prov_id", "transaction_regency_id", "transaction_district_id", "amount", "status_transaction", "rating", "rating_comment"}).
-				AddRow(outputTransactionDetail.TypeTransactionId, outputTransactionDetail.CustomerId, outputTransactionDetail.AgentId, outputTransactionDetail.Address, outputTransactionDetail.ProvinceId, outputTransactionDetail.RegencyId, outputTransactionDetail.DistrictId, outputTransactionDetail.Amount, outputTransactionDetail.Rating, outputTransactionDetail.RatingComment)).
+			WillReturnRows(sqlmock.NewRows([]string{"type_transaction_id", "customers_id", "agents_id", "address", "transaction_prov_id", "transaction_regency_id", "transaction_district_id", "amount", "status_transaction", "rating", "rating_comment",`customers_id`,`agents_id`,`address`,`transaction_prov_id`,`transaction_regency_id`,`transaction_district_id`,`amount`,`status_transaction`,`rating`,`rating_comment`,`longitude_cust`,`latitude_cust`}).
+				AddRow(outputTransactionDetail.TypeTransactionId, outputTransactionDetail.CustomerId, outputTransactionDetail.AgentId, outputTransactionDetail.Address, outputTransactionDetail.ProvinceId, outputTransactionDetail.RegencyId, outputTransactionDetail.DistrictId, outputTransactionDetail.Amount, outputTransactionDetail.Rating, outputTransactionDetail.RatingComment,outputTransactionDetail.LatitudeCust, outputTransactionDetail.LongtitudeCust)).
 			WillReturnError(nil)
 		actual, err := repo.GetById(inputId)
 		assert.Nil(t, err)
