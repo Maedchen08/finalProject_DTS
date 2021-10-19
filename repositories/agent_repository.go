@@ -24,6 +24,7 @@ type AgentRepoInterface interface {
 	GetAgent() ([]models.Agents, error)
 	GetAgentId(id int) (models.Agents, error)
 	SearchAgent(s int) ([]models.Agents, error)
+	
 }
 
 func (ar *AgentRepository) Save(agent *models.Agents) (int, error) {
