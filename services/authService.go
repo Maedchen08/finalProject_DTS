@@ -17,7 +17,8 @@ type AuthServiceInterface interface {
 	Register(users *models.Users) (*models.Users, error)
 	GetAll() ([]models.Users, error)
 	GetById(id int) (models.Users, error)
-	Login(username, password string) (models.Users, error)
+	Login(username string) (models.Users, error)
+	// Login(username, password string) (models.Users, error)
 }
 
 func (as *AuthService) Register(users *models.Users) (*models.Users, error) {
@@ -45,10 +46,19 @@ func (as *AuthService) GetAll() ([]models.Users, error) {
 	return users, nil
 }
 
-func (as *AuthService) Login(username, password string) (models.Users, error) {
-	users, err := as.authRepository.Login(username, password)
+// func (as *AuthService) Login(username, password string) (models.Users, error) {
+// 	users, err := as.authRepository.Login(username, password)
+// 	if err != nil {
+// 		return users, err
+// 	}
+// 	return users, nil
+// }
+
+func (as *AuthService) Login(username string) (models.Users, error) {
+	users, err := as.authRepository.Login(username)
 	if err != nil {
 		return users, err
 	}
 	return users, nil
 }
+
