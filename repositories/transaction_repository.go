@@ -148,3 +148,5 @@ func (tr *TransactionRepo) RatingTransaction(t *models.Transactions) error {
 	}
 	return nil
 }
+
+

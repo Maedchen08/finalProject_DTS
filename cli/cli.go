@@ -71,10 +71,14 @@ func (cli *Cli) Run(application *app.Application) {
 	transRoute := route.NewTransRoutes(transactionHandler)
 	authRoute := route.NewAuthRoutes(authHandler)
 
+
 	agentRoute.InitialAgentRoutes(app)
 	customerRoute.InitialCustomerRoute(app)
 	sTRoute.InitialSTRoute(app)
 	tsRoute.InitialTSRoute(app)
+	route.InitialIndexRoutes(app)
+
+
 
 	transRoute.InitialTransactionRoutes(app)
 

@@ -13,6 +13,8 @@ type Agents struct {
 	NoWa         string         `gorm:"column:no_wa;type:varchar(30)" json:"no_wa"`
 	Users        []Users        `gorm:"ForeignKey:agent_id" json:"agent_id"`
 	Transactions []Transactions `gorm:"ForeignKey:agents_id" json:"agents_id"`
+	LongtitudeAgent float64 `gorm:"column:longitude_agent" json:"longitude_agent"`
+	LatitudeAgent float64 `gorm:"column:latitude_agent" json:"latitude_agent"`
 }
 
 func (agent *Agents) TableName() string {
