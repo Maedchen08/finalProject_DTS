@@ -11,6 +11,6 @@ type AgentSearch struct {
 	RegencyId         int     `gorm:"column:transaction_regency_id;not null" json:"transaction_regency_id"`
 	DistrictId        int     `gorm:"column:transaction_district_id;not null" json:"transaction_district_id"`
 	Amount            int     `gorm:"column:amount;not null" json:"amount"`
-	LongtitudeAgent   float64 `gorm:"column:longitude_agent" json:"longitude_agent"`
-	LatitudeAgent     float64 `gorm:"column:latitude_agent" json:"latitude_agent"`
+	LongtitudeCust    float64 `gorm:"column:longitude_cust" json:"longitude_cust"`
+	LatitudeCust      float64 `gorm:"column:latitude_cust" json:"latitude_cust"`
 }

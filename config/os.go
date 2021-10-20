@@ -26,3 +26,9 @@ func mustParseKey(err error, key string) {
 		log.Warning("Could not parse key :%s,error:%s", key, err)
 	}
 }
+
+func GetIntt(key string) int {
+	v, err := strconv.Atoi(GetString(key))
+	mustParseKey(err, key)
+	return v
+}
