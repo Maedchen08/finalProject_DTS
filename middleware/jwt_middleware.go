@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"AntarJemput-Be-C/config"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 
@@ -14,7 +15,7 @@ func JWTProtected() func(*fiber.Ctx) error {
 		ContextKey:   "jwt",
 		ErrorHandler: jwtError,
 	}
-
+	fmt.Println("Config :", config)
 	return jwtMiddleware.New(config)
 }
 
@@ -29,5 +30,6 @@ func jwtError(c *fiber.Ctx, err error) error {
 	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 		"error": true,
 		"msg":   err.Error(),
+		"mes":   "Status Unauthorized",
 	})
 }
