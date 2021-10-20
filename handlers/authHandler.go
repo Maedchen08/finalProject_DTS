@@ -3,7 +3,7 @@ package handlers
 import (
 	"AntarJemput-Be-C/models"
 	"AntarJemput-Be-C/services"
-	"strconv"
+	"fmt"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -31,13 +31,13 @@ type UserHandlerInterface interface {
 }
 
 func HashPassword(password string) (string, error) {
-    bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-    return string(bytes), err
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
 }
 
 func CheckPasswordHash(password, hash string) bool {
-    err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-    return err == nil
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }
 
 func (a *AuthHandler) Register(c *fiber.Ctx) error {
@@ -94,13 +94,24 @@ func (a *AuthHandler) Login(c *fiber.Ctx) error {
 		})
 	}
 
+	claims := jwt.MapClaims{}
+	claims["username"] = respone.Username
+	claims["login_as"] = respone.RoleId.EnumIndex()
+	claims["exp"] = time.Now().Add(time.Hour * 72).Unix() //1 day
 
-	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		Issuer:    strconv.Itoa(int(respone.Id)),
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), //1 day
-	})
+	// Create token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	token, err := claims.SignedString([]byte(SecretKey))
+	// Generate encoded token and send it as response.
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	fmt.Println("Print respone ", respone)
+	fmt.Println("Print role id enum", respone.RoleId.EnumIndex())
+	fmt.Println("Print role id", respone.RoleId)
+
 	if err != nil {
 		c.Status(fiber.StatusInternalServerError)
 		return c.JSON(fiber.Map{
@@ -110,15 +121,18 @@ func (a *AuthHandler) Login(c *fiber.Ctx) error {
 
 	cookie := fiber.Cookie{
 		Name:     "jwt",
-		Value:    token,
+		Value:    t,
 		Expires:  time.Now().Add(time.Hour * 24),
 		HTTPOnly: true,
 	}
 	c.Cookie(&cookie)
 
 	return c.JSON(fiber.Map{
-		"message": "Login Succeeded",
-		"token":   token,
+		"status":   200,
+		"message":  "Login Succeeded",
+		"token":    t,
+		"username": respone.Username,
+		"Id":       respone.CustomerId,
 	})
 }
 
