@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"AntarJemput-Be-C/config"
 	"AntarJemput-Be-C/models"
 	"AntarJemput-Be-C/services"
 	"fmt"
@@ -103,7 +104,7 @@ func (a *AuthHandler) Login(c *fiber.Ctx) error {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// Generate encoded token and send it as response.
-	t, err := token.SignedString([]byte("secret"))
+	t, err := token.SignedString([]byte(config.GetString("JWT_SECRET")))
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}

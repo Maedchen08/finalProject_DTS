@@ -64,8 +64,8 @@ func (cli *Cli) Run(application *app.Application) {
 	authHandler := handlers.NewAuthHandler(authService)
 
 	//REGISTER HANDLER TO Routes
-	tokenHandlers := &handlers.TokenHandler{}
-	agentRoute := route.NewAgentRoutes(agentHandler, tokenHandlers)
+	// tokenHandlers := &handlers.TokenHandler{}
+	agentRoute := route.NewAgentRoutes(agentHandler)
 	customerRoute := route.NewCustomerRoutes(customerHandler)
 	sTRoute := route.NewSTRoutes(serviceTransacHandler)
 	tsRoute := route.NewTSRoutes(typeSHandler)
