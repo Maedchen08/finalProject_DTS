@@ -19,9 +19,9 @@ type Transactions struct {
 	Amount            int                    `gorm:"column:amount;not null" json:"amount"`
 	StatusTransaction enum.StatusTransaction `gorm:"column:status_transaction;not null;default:0" json:"status_transaction"`
 	Rating            int                    `gorm:"column:rating" json:"rating"`
-	RatingComment     string           		 `gorm:"column:rating_comment;type:varchar(255);null" json:"rating_comment"`
-	LongtitudeCust float64 `gorm:"column:longitude_cust" json:"longitude_cust"`
-	LatitudeCust float64 `gorm:"column:latitude_cust" json:"latitude_cust"`
+	RatingComment     string                 `gorm:"column:rating_comment;type:varchar(255);null" json:"rating_comment"`
+	LongtitudeCust    float64                `gorm:"column:longitude_cust" json:"longitude_cust"`
+	LatitudeCust      float64                `gorm:"column:latitude_cust" json:"latitude_cust"`
 }
 
 func (transaction *Transactions) TableName() string {
