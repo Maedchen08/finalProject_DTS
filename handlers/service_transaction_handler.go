@@ -39,7 +39,7 @@ func (sth *STransacHandler) Save(c *fiber.Ctx) error {
 		})
 	}
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"status":  201,
+		"status":  200,
 		"message": "Success",
 		"data":    response,
 	})

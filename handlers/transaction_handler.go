@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"AntarJemput-Be-C/models"
-	"AntarJemput-Be-C/models/enum"
+	// "AntarJemput-Be-C/models/enum"
 	"AntarJemput-Be-C/services"
 	"strconv"
 	"time"
@@ -70,18 +70,7 @@ func (th *TransactionHandler) Save(c *fiber.Ctx) error {
 		"status":  201,
 		"message": "Success",
 		"data":response,
-		// "data":   fiber.Map{
-
-		// 	"id_cust": response.CustomerId,
-		// 	"jenis_transaksi": response.TypeTransactionId,
-		// 	"nominal_transaksi_idr": response.Amount,
-		// 	"alamat_cust_provinsi": response.ProvinceId,
-		// 	"alamat_cust_kabko": response.RegencyId,
-		// 	"alamat_cust_kecamatan": response.DistrictId,
-		// 	"alamat_cust_lengkap": response.Address,
-		// 	"id_agen": response.AgentId,
-		// 	"id_transaksi": response.Id,
-		// },
+		
 	})
 
 }
@@ -198,14 +187,7 @@ func (th *TransactionHandler) DeleteTransaction(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	err := th.transactionService.DeleteTransaction(id)
 	if err != nil {
-		// if errors.Is(err, gorm.ErrRecordNotFound) {
-		// 	return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-		// 		"error":true,
-		// 		"message":"data not found",
-
-		// 	})
-		// }
-
+		
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error":   true,
 			"message": err.Error(),
@@ -279,12 +261,12 @@ func (th *TransactionHandler) RatingTransaction(c *fiber.Ctx) error {
 		})
 	}
 
-	if transaction.StatusTransaction != enum.Done{
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"status":404,
-			"message":"you can give rating if the status transaction is done",
-		})
-	}
+	// if transaction.StatusTransaction != enum.Done {
+	// 	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+	// 		"status":404,
+	// 		"message":"you can give rating if the status transaction is done",
+	// 	})
+	// }
 
 
 	response, err := th.transactionService.RatingTransaction(transaction)
