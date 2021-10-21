@@ -78,7 +78,7 @@ func (a *AuthHandler) Login(c *fiber.Ctx) error {
 	respone, _ := a.authService.Login(username)
 
 	// handle error
-	if respone.Id == 0 { //default Id when return nil
+	if respone.ID == 0 { //default Id when return nil
 		c.Status(fiber.StatusNotFound)
 		return c.JSON(fiber.Map{
 			"message": "User not found!",
