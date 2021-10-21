@@ -5,6 +5,7 @@ import (
 	"AntarJemput-Be-C/models"
 	"AntarJemput-Be-C/services"
 	"time"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
@@ -56,6 +57,8 @@ func (a *AuthHandler) Register(c *fiber.Ctx) error {
 		Password:   password,
 	}
 
+	
+
 	a.authService.Register(&user)
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		// "status":  201,
@@ -77,13 +80,14 @@ func (a *AuthHandler) Login(c *fiber.Ctx) error {
 
 	respone, _ := a.authService.Login(username)
 
+
 	// handle error
-	// if respone.ID == 0 { //default Id when return nil
-	// 	c.Status(fiber.StatusNotFound)
-	// 	return c.JSON(fiber.Map{
-	// 		"message": "User not found!",
-	// 	})
-	// }
+	if respone.Username ==""  { //default Id when return nil
+		c.Status(fiber.StatusNotFound)
+		return c.JSON(fiber.Map{
+			"message": "User not found!",
+		})
+	}
 
 	// match password
 	if check := CheckPasswordHash(password, respone.Password); !check {
