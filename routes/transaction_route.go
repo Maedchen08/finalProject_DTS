@@ -2,6 +2,7 @@ package routes
 
 import (
 	"AntarJemput-Be-C/handlers"
+	"AntarJemput-Be-C/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -15,16 +16,16 @@ func NewTransRoutes(transHandler handlers.TransactionHandlerInterface) *Transact
 }
 
 func (tr *TransactionRoutes) InitialTransactionRoutes(app *fiber.App) {
-	app.Post(POST_TRANSACTION, tr.transactionHandler.Save)
-	app.Post(POST_CONFIRM_TRANSACTION, tr.transactionHandler.ChangeConfirmed)
-	app.Get(GETALL_TRANSACTION, tr.transactionHandler.GetAll)
-	app.Get(GETBYID_TRANSACTION, tr.transactionHandler.GetById)
-	app.Post(POST_REJECT_TRANSACTION, tr.transactionHandler.ChangeRejected)
-	app.Post(POST_DONE_TRANSACTION, tr.transactionHandler.ChangeDone)
-	app.Delete(DELETE_TRANSACTION,tr.transactionHandler.DeleteTransaction)
-	app.Get(GETBYID_TRANSACTION_AGENT, tr.transactionHandler.GetByAgentId)
-	app.Get(GETBYID_TRANSACTION_CUSTOMER, tr.transactionHandler.GetByCustomerId)
-	app.Post(POST_RATING_TRANSACTION, tr.transactionHandler.RatingTransaction)
-	app.Get(GETRATING_AGENT, tr.transactionHandler.RatingAgent)
+	app.Post(POST_TRANSACTION, middleware.JWTProtected(), tr.transactionHandler.Save)
+	app.Post(POST_CONFIRM_TRANSACTION, middleware.JWTProtected(), tr.transactionHandler.ChangeConfirmed)
+	app.Get(GETALL_TRANSACTION, middleware.JWTProtected(), tr.transactionHandler.GetAll)
+	app.Get(GETBYID_TRANSACTION, middleware.JWTProtected(), tr.transactionHandler.GetById)
+	app.Post(POST_REJECT_TRANSACTION, middleware.JWTProtected(), tr.transactionHandler.ChangeRejected)
+	app.Post(POST_DONE_TRANSACTION, middleware.JWTProtected(), tr.transactionHandler.ChangeDone)
+	app.Delete(DELETE_TRANSACTION, middleware.JWTProtected(), tr.transactionHandler.DeleteTransaction)
+	app.Get(GETBYID_TRANSACTION_AGENT, middleware.JWTProtected(), tr.transactionHandler.GetByAgentId)
+	app.Get(GETBYID_TRANSACTION_CUSTOMER, middleware.JWTProtected(), tr.transactionHandler.GetByCustomerId)
+	app.Post(POST_RATING_TRANSACTION, middleware.JWTProtected(), tr.transactionHandler.RatingTransaction)
+	app.Get(GETRATING_AGENT, middleware.JWTProtected(), tr.transactionHandler.RatingAgent)
 
 }

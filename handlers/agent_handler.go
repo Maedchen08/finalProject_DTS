@@ -4,15 +4,16 @@ import (
 	"AntarJemput-Be-C/models"
 	"AntarJemput-Be-C/services"
 	"errors"
-	"fmt"
 	"math"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
+
 // const km = float64(1)
 const earthRadius = float64(6371)
+
 type AgentHandler struct {
 	agentService services.AgentServiceInterface
 }
@@ -96,31 +97,27 @@ func (ah *AgentHandler) SearchAgent(c *fiber.Ctx) error {
 	}
 
 	response, errorAgent := ah.agentService.SearchAgent(datapush.DistrictId)
-	//  agents := make([]interface{}) 
+	//  agents := make([]interface{})
 
-	 type AgentLoc struct{
-		 Agents []models.ListRekomAgents
-	
-	 }
+	type AgentLoc struct {
+		Agents []models.ListRekomAgents
+	}
 	var agents AgentLoc
 
-	for _,r := range response{
+	for _, r := range response {
 		agents.Agents = append(agents.Agents, models.ListRekomAgents{
-			Id:r.Id,
-			Name:r.Name,
-			Address:r.Address,
-			NoWa:r.NoWa,
-			ProvinceId:r.ProvinceId,
-			RegencyId: r.RegencyId,
-			DistrictId:r.DistrictId,
+			Id:              r.Id,
+			Name:            r.Name,
+			Address:         r.Address,
+			NoWa:            r.NoWa,
+			ProvinceId:      r.ProvinceId,
+			RegencyId:       r.RegencyId,
+			DistrictId:      r.DistrictId,
 			LongtitudeAgent: r.LongtitudeAgent,
-			LatitudeAgent: r.LatitudeAgent,
-			Distance:Haversine(datapush.LongtitudeCust,datapush.LatitudeCust, r.LongtitudeAgent,r.LatitudeAgent),
-			
+			LatitudeAgent:   r.LatitudeAgent,
+			Distance:        Haversine(datapush.LongtitudeCust, datapush.LatitudeCust, r.LongtitudeAgent, r.LatitudeAgent),
 		})
 	}
-
-	fmt.Println("agents:", agents)
 
 	if errorAgent != nil {
 		if errors.Is(err2, gorm.ErrRecordNotFound) {
@@ -136,39 +133,32 @@ func (ah *AgentHandler) SearchAgent(c *fiber.Ctx) error {
 		})
 	}
 
-	
-
 	if len(response) == 0 {
 		return c.Status(fiber.StatusAccepted).JSON(fiber.Map{
 			"status": 202,
 			"msg":    "Data agen tidak ditemukan",
 		})
 	}
-	var agent models.Agents
-	var distance = Haversine(datapush.LongtitudeCust,datapush.LatitudeCust, agent.LongtitudeAgent,agent.LatitudeAgent)
+	
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"error":                 false,
 		"msg":                   "success retrieve data",
 		"data":                  datapush,
-		"distance": distance,
 		"list_rekomendasi_agen": agents,
-		
 	})
 }
 
 func Haversine(lonFrom float64, latFrom float64, lonTo float64, latTo float64) (distance float64) {
 	var deltaLat = (latTo - latFrom) * (math.Pi / 180)
 	var deltaLon = (lonTo - lonFrom) * (math.Pi / 180)
-	
-	var a = math.Sin(deltaLat / 2) * math.Sin(deltaLat / 2) + 
-		math.Cos(latFrom * (math.Pi / 180)) * math.Cos(latTo * (math.Pi / 180)) *
-		math.Sin(deltaLon / 2) * math.Sin(deltaLon / 2)
-	var c = 2 * math.Atan2(math.Sqrt(a),math.Sqrt(1-a))
-	
+
+	var a = math.Sin(deltaLat/2)*math.Sin(deltaLat/2) +
+		math.Cos(latFrom*(math.Pi/180))*math.Cos(latTo*(math.Pi/180))*
+			math.Sin(deltaLon/2)*math.Sin(deltaLon/2)
+	var c = 2 * math.Atan2(math.Sqrt(a), math.Sqrt(1-a))
+
 	distance = earthRadius * c
-	
+
 	return
 }
-
-

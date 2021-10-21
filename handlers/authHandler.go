@@ -4,9 +4,7 @@ import (
 	"AntarJemput-Be-C/config"
 	"AntarJemput-Be-C/models"
 	"AntarJemput-Be-C/services"
-	"fmt"
 	"time"
-
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
@@ -109,9 +107,6 @@ func (a *AuthHandler) Login(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	fmt.Println("Print respone ", respone)
-	fmt.Println("Print role id enum", respone.RoleId.EnumIndex())
-	fmt.Println("Print role id", respone.RoleId)
 
 	if err != nil {
 		c.Status(fiber.StatusInternalServerError)
@@ -133,7 +128,8 @@ func (a *AuthHandler) Login(c *fiber.Ctx) error {
 		"message":  "Login Succeeded",
 		"token":    t,
 		"username": respone.Username,
-		"Id":       respone.CustomerId,
+		"Id":       respone.Id,
+		"role": respone.RoleId.EnumIndex(),
 	})
 }
 
