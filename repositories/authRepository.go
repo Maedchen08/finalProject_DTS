@@ -40,7 +40,7 @@ func (ar *AuthRepository) GetUser() ([]models.Users, error) {
 
 func (ar *AuthRepository) Login(username string) (models.Users, error) {
 	var users models.Users
-	query := `SELECT * FROM Users WHERE username = ?`
+	query := `SELECT * FROM users WHERE username = ?`
 
 	err := ar.DB.Raw(query, username).Scan(&users).Error
 
