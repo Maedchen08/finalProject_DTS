@@ -4,6 +4,8 @@ import (
 	"AntarJemput-Be-C/config"
 	"AntarJemput-Be-C/models"
 	"AntarJemput-Be-C/services"
+	"fmt"
+	"log"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -79,6 +81,8 @@ func (a *AuthHandler) Login(c *fiber.Ctx) error {
 	password := data["password"]
 
 	respone, _ := a.authService.Login(username)
+	fmt.Println(username,password,respone)
+	log.Println(respone)
 
 
 	// handle error
