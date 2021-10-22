@@ -963,6 +963,15 @@ status code : 200
 }
 ```
 
+### Tech Stack
+
+-   [Golang] - programming language
+-   [Fiber] - web framework with zero memory allocation and performance
+-   [Gomock] - mocking framework for the Go programming language.
+-   [JsonWebToken] - Authorization and Authentication
+-   [Docker] - Docker for deployed applications
+-   [Kubernetes] - an open-source platform used to perform containerized application workload management, and provides declarative configuration and automation
+
 [golang]: https://golang.org/
 [fiber]: https://github.com/gofiber/fiber/
 [gomock]: https://github.com/golang/mock/
