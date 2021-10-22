@@ -63,7 +63,6 @@ Request:
 {
     "role": 2,
     "customer_id": 2,
-    "agent_id": 2,
     "username": "maulana",
     "password": "maulana"
 }
@@ -75,14 +74,12 @@ status code: 200
 ```
 {
        "data": {
-        "ID": 0,
         "CreatedAt": "2021-10-21T12:40:57.98+07:00",
         "UpdatedAt": "2021-10-21T12:40:57.98+07:00",
         "DeletedAt": null,
         "id": 37,
         "role": 2,
         "customer_id": 2,
-        "agent_id": 2,
         "username": "maulana",
         "password": "$2a$14$bdzA66IKLom/Nk4fhvfFp.diYjCGWP1LjMFZ3JnHxYFlZlZ3qSFK6"
     },
@@ -142,7 +139,6 @@ Status Code : 200
     "message": "Success",
     "status": 201
     "data": {
-        "ID": 0,
         "CreatedAt": "2021-10-21T11:26:12.284+07:00",
         "UpdatedAt": "2021-10-21T11:26:12.284+07:00",
         "DeletedAt": null,
@@ -168,7 +164,6 @@ Status code: 200
 {
     "data": [
         {
-            "ID": 0,
             "CreatedAt": "0001-01-01T00:00:00Z",
             "UpdatedAt": "0001-01-01T00:00:00Z",
             "DeletedAt": null,
@@ -184,7 +179,6 @@ Status code: 200
         },
 
         {
-            "ID": 0,
             "CreatedAt": "2021-10-21T04:26:12.284Z",
             "UpdatedAt": "2021-10-21T04:26:12.284Z",
             "DeletedAt": null,
@@ -214,7 +208,6 @@ Status code: 200
     "message": "success",
     "status": 200
     "data": {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "0001-01-01T00:00:00Z",
         "DeletedAt": null,
@@ -251,7 +244,6 @@ Status code: 200
     "status": 200
     "message": "data has been update",
     "result": {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "2021-10-21T04:39:36.01Z",
         "DeletedAt": null,
@@ -283,7 +275,6 @@ Status code: 200
     "message": "success",
     "status": 200
     "data": {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "0001-01-01T00:00:00Z",
         "DeletedAt": null,
@@ -359,7 +350,6 @@ Status code: 200
     "status": 200
     "data": [
         {
-            "ID": 0,
             "CreatedAt": "0001-01-01T00:00:00Z",
             "UpdatedAt": "0001-01-01T00:00:00Z",
             "DeletedAt": null,
@@ -368,7 +358,6 @@ Status code: 200
             "no_wa": "084736273849"
         },
         {
-            "ID": 0,
             "CreatedAt": "0001-01-01T00:00:00Z",
             "UpdatedAt": "0001-01-01T00:00:00Z",
             "DeletedAt": null,
@@ -415,7 +404,6 @@ Status code: 200
     "message": "success",
     "status": 200
     "data": {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "0001-01-01T00:00:00Z",
         "DeletedAt": null,
@@ -436,7 +424,6 @@ Status code: 200
     "status": 200
     "data": [
         {
-            "ID": 0,
             "CreatedAt": "0001-01-01T00:00:00Z",
             "UpdatedAt": "0001-01-01T00:00:00Z",
             "DeletedAt": null,
@@ -444,7 +431,6 @@ Status code: 200
             "service_name": "Laku Pandai"
         },
         {
-            "ID": 0,
             "CreatedAt": "0001-01-01T00:00:00Z",
             "UpdatedAt": "0001-01-01T00:00:00Z",
             "DeletedAt": null,
@@ -452,7 +438,6 @@ Status code: 200
             "service_name": "Tunai"
         },
         {
-            "ID": 0,
             "CreatedAt": "0001-01-01T00:00:00Z",
             "UpdatedAt": "0001-01-01T00:00:00Z",
             "DeletedAt": null,
@@ -471,7 +456,6 @@ Status code: 200
 ```
 {
     "data": {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "0001-01-01T00:00:00Z",
         "DeletedAt": null,
@@ -501,7 +485,6 @@ Status code: 200
 ```
 {
     "data": {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "0001-01-01T00:00:00Z",
         "DeletedAt": null,
@@ -525,7 +508,6 @@ Status code: 200
     "status": 200
     "data":    [
     {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "0001-01-01T00:00:00Z",
         "DeletedAt": null,
@@ -535,7 +517,6 @@ Status code: 200
     },
 
     {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "0001-01-01T00:00:00Z",
         "DeletedAt": null,
@@ -558,7 +539,6 @@ Status code: 200
     "message": "success",
     "status": 200
     "data": {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "0001-01-01T00:00:00Z",
         "DeletedAt": null,
@@ -597,7 +577,6 @@ status code: 200
     "message": "success",
     "status": 200
     "data": {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "2021-10-13T08:59:15.967Z",
         "DeletedAt": null,
@@ -635,7 +614,6 @@ Status code: 200
     "status": 200
     "message": "data has been update",
     "result": {
-        "ID": 0,
         "CreatedAt": "0001-01-01T00:00:00Z",
         "UpdatedAt": "2021-10-21T06:50:03.506Z",
         "DeletedAt": null,
